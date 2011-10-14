@@ -1,0 +1,2 @@
+C:\Users\Jordan\Desktop\forks_serioussam909_animationsphysicsobjects_ea26a6cf9958\gleed2d\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jordan\Desktop\GameTools\gleed2d\Content\obj\x86\Debug\ResolveAssemblyReference.cache
