@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Level xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Level_01" Visible="true">
+	<Layers>
+        <Layer Name="Level1" Visible="true">
+			<Objects>
+				<!-- TileObject -->
+				<Object xsi:type="TileObject" Name="", Visible="">
+					<Position>
+						<X>int</X>
+						<Y>int</Y>
+					</Position>
+					<Rotation>int</Rotation>
+					<Scale>float</Scale>
+					<Color>
+						<R>int</R>
+                        <G>int</G>
+                        <B>int</B>
+                        <A>int</A>
+					</Color>
+					<FlipHorizontally>bool</FlipHorizontally>
+                    <FlipVertically>bool</FlipVertically>
+					<texture_filename>relative path</texture_filename>
+					<Animation>
+						<Row>int</Row>
+						<Column>int</Column>
+						<Frames>int</Column>
+					</Animation>
+				</Object>
+				<!-- Collision Object -->
+				<Object xsi:type="CollObject" Name="" >
+					<Position>
+						<X>int</X>
+						<Y>int</Y>
+					</Position>
+					<Width>int</Width>
+					<Height>int</Height>
+				</Object>
+			</Objects>
+		
+				

@@ -58,7 +58,7 @@ namespace GLEED2D
             }
             if (radioButton5.Checked)
             {
-                cp.type = typeof(Item);
+                cp.type = typeof(MapObject);
                 cp.value = null;
             }
             

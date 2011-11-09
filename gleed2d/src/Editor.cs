@@ -52,8 +52,8 @@ namespace GLEED2D
                     else MainForm.Instance.toolStripStatusLabel2.Text = "Layer: " + selectedlayer.Name;
             }
         }
-        Item lastitem;
-        public List<Item> SelectedItems;
+        MapObject lastitem;
+        public List<MapObject> SelectedItems;
         Rectangle selectionrectangle = new Rectangle();
         Vector2 mouseworldpos, grabbedpoint, initialcampos, newPosition;       
         List<Vector2> initialpos;                   //position before user interaction
@@ -80,7 +80,7 @@ namespace GLEED2D
             Instance = this;
             state = EditorState.idle;
 
-            SelectedItems = new List<Item>();
+            SelectedItems = new List<MapObject>();
             initialpos = new List<Vector2>();
             initialrot = new List<float>();
             initialscale = new List<Vector2>();
@@ -175,32 +175,32 @@ namespace GLEED2D
             MainForm.Instance.propertyGrid1.SelectedObject = l;
         }
 
-        public void addItem(Item i)
+        public void addItem(MapObject i)
         {
-            if (!i.layer.Items.Contains(i)) i.layer.Items.Add(i);
+            if (!i.layer.MapObjects.Contains(i)) i.layer.MapObjects.Add(i);
         }
 
         public void deleteSelectedItems()
         {
-            beginCommand("Delete Item(s)");
-            List<Item> selecteditemscopy = new List<Item>(SelectedItems);
+            beginCommand("Delete MapObject(s)");
+            List<MapObject> selecteditemscopy = new List<MapObject>(SelectedItems);
 
-            List<Item> itemsaffected = new List<Item>();
+            List<MapObject> itemsaffected = new List<MapObject>();
 
-            foreach (Item selitem in selecteditemscopy) {
+            foreach (MapObject selitem in selecteditemscopy) {
 
                 foreach (Layer l in level.Layers)
-                    foreach (Item i in l.Items)
+                    foreach (MapObject i in l.MapObjects)
                         foreach (CustomProperty cp in i.CustomProperties.Values)
                         {
-                            if (cp.type == typeof(Item) && cp.value == selitem)
+                            if (cp.type == typeof(MapObject) && cp.value == selitem)
                             {
                                 cp.value = null;
                                 itemsaffected.Add(i);
                             }
                         }
 
-                selitem.layer.Items.Remove(selitem);
+                selitem.layer.MapObjects.Remove(selitem);
             }
             endCommand();
             selectitem(null);
@@ -209,31 +209,31 @@ namespace GLEED2D
             if (itemsaffected.Count > 0)
             {
                 string message = "";
-                foreach (Item item in itemsaffected) message += item.Name + " (Layer: " + item.layer.Name + ")\n";
-                Forms.MessageBox.Show("The following Items have Custom Properties of Type \"Item\" that refered to items that have just been deleted:\n\n"
-                    + message + "\nThe corresponding Custom Properties have been set to NULL, since the Item referred to doesn't exist anymore.");
+                foreach (MapObject item in itemsaffected) message += item.Name + " (Layer: " + item.layer.Name + ")\n";
+                Forms.MessageBox.Show("The following MapObjects have Custom Properties of Type \"MapObject\" that refered to items that have just been deleted:\n\n"
+                    + message + "\nThe corresponding Custom Properties have been set to NULL, since the MapObject referred to doesn't exist anymore.");
             }
 
         }
 
-        public void moveItemUp(Item i)
+        public void moveItemUp(MapObject i)
         {
-            int index = i.layer.Items.IndexOf(i);
-            i.layer.Items[index] = i.layer.Items[index - 1];
-            i.layer.Items[index - 1] = i;
+            int index = i.layer.MapObjects.IndexOf(i);
+            i.layer.MapObjects[index] = i.layer.MapObjects[index - 1];
+            i.layer.MapObjects[index - 1] = i;
             //updatetreeview();
         }
 
-        public void moveItemDown(Item i)
+        public void moveItemDown(MapObject i)
         {
-            int index = i.layer.Items.IndexOf(i);
-            i.layer.Items[index] = i.layer.Items[index + 1];
-            i.layer.Items[index + 1] = i;
+            int index = i.layer.MapObjects.IndexOf(i);
+            i.layer.MapObjects[index] = i.layer.MapObjects[index + 1];
+            i.layer.MapObjects[index + 1] = i;
             selectitem(i);
             //updatetreeview();
         }
 
-        public void selectitem(Item i)
+        public void selectitem(MapObject i)
         {
             SelectedItems.Clear();
             if (i != null)
@@ -252,28 +252,28 @@ namespace GLEED2D
         public void selectAll()
         {
             if (SelectedLayer == null) return;
-            //if (SelectedLayer.Items.Count == 0) return;
+            //if (SelectedLayer.MapObjects.Count == 0) return;
             SelectedItems.Clear();
-            foreach (Item i in SelectedLayer.Items)
+            foreach (MapObject i in SelectedLayer.MapObjects)
             {
                 SelectedItems.Add(i);
             }
             updatetreeviewselection();
         }
 
-        public void moveItemToLayer(Item i1, Layer l2, Item i2)
+        public void moveItemToLayer(MapObject i1, Layer l2, MapObject i2)
         {
-            int index2 = i2 == null ? 0 : l2.Items.IndexOf(i2);
-            i1.layer.Items.Remove(i1);
-            l2.Items.Insert(index2, i1);
+            int index2 = i2 == null ? 0 : l2.MapObjects.IndexOf(i2);
+            i1.layer.MapObjects.Remove(i1);
+            l2.MapObjects.Insert(index2, i1);
             i1.layer = l2;
         }
         public void moveSelectedItemsToLayer(Layer chosenlayer)
         {
             if (chosenlayer == SelectedLayer) return;
-            beginCommand("Move Item(s) To Layer \"" + chosenlayer.Name + "\"");
-            List<Item> selecteditemscopy = new List<Item>(SelectedItems);
-            foreach (Item i in selecteditemscopy)
+            beginCommand("Move MapObject(s) To Layer \"" + chosenlayer.Name + "\"");
+            List<MapObject> selecteditemscopy = new List<MapObject>(SelectedItems);
+            foreach (MapObject i in selecteditemscopy)
             {
                 moveItemToLayer(i, chosenlayer, null);
             }
@@ -284,11 +284,11 @@ namespace GLEED2D
         public void copySelectedItemsToLayer(Layer chosenlayer)
         {
             //if (chosenlayer == SelectedLayer) return;
-            beginCommand("Copy Item(s) To Layer \"" + chosenlayer.Name + "\"");
-            List<Item> selecteditemscopy = new List<Item>(SelectedItems);
-            foreach (Item i in selecteditemscopy)
+            beginCommand("Copy MapObject(s) To Layer \"" + chosenlayer.Name + "\"");
+            List<MapObject> selecteditemscopy = new List<MapObject>(SelectedItems);
+            foreach (MapObject i in selecteditemscopy)
             {
-                Item copy = i.clone();
+                MapObject copy = i.clone();
                 copy.layer = chosenlayer;
                 copy.Name = MainForm.Instance.getUniqueNameBasedOn(copy.Name);
                
@@ -328,7 +328,7 @@ namespace GLEED2D
                 destroyTextureBrush();
                 return;
             }
-            Item i;
+            MapObject i;
             if (physicsItemMode)
             {
                 //physics
@@ -341,7 +341,7 @@ namespace GLEED2D
             }
             else
             {
-                i = new TextureItem(currentbrush.fullpath, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));
+                i = new TileObject(currentbrush.fullpath, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));
             }
             if (animationMode)
             {
@@ -363,7 +363,7 @@ namespace GLEED2D
             i.Id = generateID(nextnum);   
 
             i.layer = SelectedLayer;
-            beginCommand("Add Item \"" + i.Name + "\"");
+            beginCommand("Add MapObject \"" + i.Name + "\"");
             addItem(i);
             
             endCommand();
@@ -424,10 +424,10 @@ namespace GLEED2D
                     
 
                 case PrimitiveType.Rectangle:
-                    Item ri;
+                    MapObject ri;
                     if (customEntity)
                     {
-                        ri = (Item)Activator.CreateInstance(customEntityType, Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
+                        ri = (MapObject)Activator.CreateInstance(customEntityType, Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
 
                     }
                     else
@@ -438,16 +438,16 @@ namespace GLEED2D
                     ri.Id = generateID(nextnum);
                     ri.Name = ri.getNamePrefix() + nextnum;
                     ri.layer = SelectedLayer;
-                    beginCommand("Add Item \"" + ri.Name + "\"");
+                    beginCommand("Add MapObject \"" + ri.Name + "\"");
                     addItem(ri);
                     endCommand();
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Rectangle_Entered;
                     break;
                 case PrimitiveType.Circle:
-                    Item ci;
+                    MapObject ci;
                     if (customEntity)
                     {
-                        ci = (Item)Activator.CreateInstance(customEntityType, clickedPoints[0], (mouseworldpos - clickedPoints[0]).Length());
+                        ci = (MapObject)Activator.CreateInstance(customEntityType, clickedPoints[0], (mouseworldpos - clickedPoints[0]).Length());
 
                     }
                     else
@@ -457,16 +457,16 @@ namespace GLEED2D
                     ci.Id = generateID(nextnum);
                     ci.Name = ci.getNamePrefix() + nextnum;// level.getNextItemNumber(); 
                     ci.layer = SelectedLayer;
-                    beginCommand("Add Item \"" + ci.Name + "\"");
+                    beginCommand("Add MapObject \"" + ci.Name + "\"");
                     addItem(ci);
                     endCommand();
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Circle_Entered;
                     break;
                 case PrimitiveType.Path:
-                    Item pi;
+                    MapObject pi;
                     if (customEntity)
                     {
-                        pi = (Item)Activator.CreateInstance(customEntityType, clickedPoints.ToArray());
+                        pi = (MapObject)Activator.CreateInstance(customEntityType, clickedPoints.ToArray());
 
                     }
                     else
@@ -477,7 +477,7 @@ namespace GLEED2D
                     pi.Id = generateID(nextnum);
                     pi.Name = pi.getNamePrefix()+nextnum;//
                     pi.layer = SelectedLayer;
-                    beginCommand("Add Item \"" + pi.Name + "\"");
+                    beginCommand("Add MapObject \"" + pi.Name + "\"");
                     addItem(pi);
                     endCommand();
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Path_Entered;
@@ -493,7 +493,7 @@ namespace GLEED2D
 
             //save the distance to mouse for each item
             initialpos.Clear();
-            foreach (Item selitem in SelectedItems)
+            foreach (MapObject selitem in SelectedItems)
             {
                 initialpos.Add(selitem.pPosition);
             }
@@ -514,14 +514,14 @@ namespace GLEED2D
             camera.Position = maincameraposition;
         }
 
-        public Item getItemAtPos(Vector2 mouseworldpos)
+        public MapObject getItemAtPos(Vector2 mouseworldpos)
         {
             if (SelectedLayer==null) return null;
             return SelectedLayer.getItemAtPos(mouseworldpos);
             /*if (level.Layers.Count == 0) return null;
             for (int i = level.Layers.Count - 1; i >= 0; i--)
             {
-                Item item = level.Layers[i].getItemAtPos(mouseworldpos);
+                MapObject item = level.Layers[i].getItemAtPos(mouseworldpos);
                 if (item != null) return item;
             }
             return null;*/
@@ -559,7 +559,7 @@ namespace GLEED2D
             foreach (Layer layer in l.Layers)
             {
                 layer.level = l;
-                foreach (Item item in layer.Items)
+                foreach (MapObject item in layer.MapObjects)
                 {
                     item.layer = layer;
                     if (!item.loadIntoEditor()) return;
@@ -607,14 +607,14 @@ namespace GLEED2D
                 layernode.ContextMenuStrip = MainForm.Instance.LayerContextMenu;
                 layernode.ImageIndex = layernode.SelectedImageIndex = 0;
 
-                foreach (Item item in layer.Items)
+                foreach (MapObject item in layer.MapObjects)
                 {
                     Forms.TreeNode itemnode = layernode.Nodes.Add(item.Name, item.Name);
                     itemnode.Tag = item;
                     itemnode.Checked = true;
                     itemnode.ContextMenuStrip = MainForm.Instance.ItemContextMenu;
                     int imageindex = 0;
-                    if (item is TextureItem) imageindex = 1;
+                    if (item is TileObject) imageindex = 1;
                     if (item is RectangleItem) imageindex = 2;
                     if (item is CircleItem) imageindex = 3;
                     if (item is PathItem) imageindex = 4;
@@ -635,7 +635,7 @@ namespace GLEED2D
                 Forms.TreeNode[] nodes = MainForm.Instance.treeView1.Nodes.Find(SelectedItems[0].Name, true);
                 if (nodes.Length > 0)
                 {
-                    List<Item> selecteditemscopy = new List<Item>(SelectedItems);
+                    List<MapObject> selecteditemscopy = new List<MapObject>(SelectedItems);
                     MainForm.Instance.propertyGrid1.SelectedObject = SelectedItems[0];
                     MainForm.Instance.treeView1.SelectedNode = nodes[0];
                     MainForm.Instance.treeView1.SelectedNode.EnsureVisible();
@@ -663,7 +663,7 @@ namespace GLEED2D
         public void alignHorizontally()
         {
             beginCommand("Align Horizontally");
-            foreach (Item i in SelectedItems)
+            foreach (MapObject i in SelectedItems)
             {
                 i.pPosition = new Vector2(i.pPosition.X, SelectedItems[0].pPosition.Y);
             }
@@ -673,7 +673,7 @@ namespace GLEED2D
         public void alignVertically()
         {
             beginCommand("Align Vertically");
-            foreach (Item i in SelectedItems)
+            foreach (MapObject i in SelectedItems)
             {
                 i.pPosition = new Vector2(SelectedItems[0].pPosition.X, i.pPosition.Y);
             }
@@ -683,9 +683,9 @@ namespace GLEED2D
         public void alignRotation()
         {
             beginCommand("Align Rotation");
-            foreach (TextureItem i in SelectedItems)
+            foreach (TileObject i in SelectedItems)
             {
-                i.pRotation = ((TextureItem)SelectedItems[0]).pRotation;
+                i.pRotation = ((TileObject)SelectedItems[0]).pRotation;
             }
             endCommand();
         }
@@ -693,9 +693,9 @@ namespace GLEED2D
         public void alignScale()
         {
             beginCommand("Align Scale");
-            foreach (TextureItem i in SelectedItems)
+            foreach (TileObject i in SelectedItems)
             {
-                i.pScale = ((TextureItem)SelectedItems[0]).pScale;
+                i.pScale = ((TileObject)SelectedItems[0]).pScale;
             }
             endCommand();
         }
@@ -850,7 +850,7 @@ namespace GLEED2D
             {
                 //get item under mouse cursor
                 customEntity = false;
-                Item item = getItemAtPos(mouseworldpos);
+                MapObject item = getItemAtPos(mouseworldpos);
                 if (item != null)
                 {
                     MainForm.Instance.toolStripStatusLabel1.Text = item.Name;
@@ -873,15 +873,15 @@ namespace GLEED2D
                     {
                         if (!SelectedItems.Contains(item)) selectitem(item);
 
-                        beginCommand("Add Item(s)");
+                        beginCommand("Add MapObject(s)");
 
-                        List<Item> selecteditemscopy = new List<Item>();
-                        foreach (Item selitem in SelectedItems)
+                        List<MapObject> selecteditemscopy = new List<MapObject>();
+                        foreach (MapObject selitem in SelectedItems)
                         {
-                            Item i2 = (Item)selitem.clone();
+                            MapObject i2 = (MapObject)selitem.clone();
                             selecteditemscopy.Add(i2);
                         }
-                        foreach (Item selitem in selecteditemscopy)
+                        foreach (MapObject selitem in selecteditemscopy)
                         {
                          //   selitem.Name = selitem.getNamePrefix() + level.getNextItemNumber();
                             int nextnum = level.getNextItemNumber();
@@ -901,7 +901,7 @@ namespace GLEED2D
                     }
                     else if (SelectedItems.Contains(item))
                     {
-                        beginCommand("Change Item(s)");
+                        beginCommand("Change MapObject(s)");
                         startMoving();
                     }
                     else if (!SelectedItems.Contains(item))
@@ -909,7 +909,7 @@ namespace GLEED2D
                         selectitem(item);
                         if (item != null)
                         {
-                            beginCommand("Change Item(s)");
+                            beginCommand("Change MapObject(s)");
                             startMoving(); 
                         }
                         else
@@ -942,7 +942,7 @@ namespace GLEED2D
 
                             //save the initial rotation for each item
                             initialrot.Clear();
-                            foreach (Item selitem in SelectedItems)
+                            foreach (MapObject selitem in SelectedItems)
                             {
                                 if (selitem.CanRotate())
                                 {
@@ -953,7 +953,7 @@ namespace GLEED2D
                             state = EditorState.rotating;
                             MainForm.Instance.pictureBox1.Cursor = cursorRot;
 
-                            beginCommand("Rotate Item(s)");
+                            beginCommand("Rotate MapObject(s)");
                         }
                     }
                 }
@@ -970,7 +970,7 @@ namespace GLEED2D
 
                         //save the initial scale for each item
                         initialscale.Clear();
-                        foreach (Item selitem in SelectedItems)
+                        foreach (MapObject selitem in SelectedItems)
                         {
                             if (selitem.CanScale())
                             {
@@ -981,18 +981,18 @@ namespace GLEED2D
                         state = EditorState.scaling;
                         MainForm.Instance.pictureBox1.Cursor = cursorScale;
 
-                        beginCommand("Scale Item(s)");
+                        beginCommand("Scale MapObject(s)");
                     }
                 }
 
                 if (kstate.IsKeyDown(Keys.H) && oldkstate.GetPressedKeys().Length == 0 && SelectedItems.Count > 0)
                 {
-                    beginCommand("Flip Item(s) Horizontally");
-                    foreach (Item selitem in SelectedItems)
+                    beginCommand("Flip MapObject(s) Horizontally");
+                    foreach (MapObject selitem in SelectedItems)
                     {
-                        if (selitem is TextureItem)
+                        if (selitem is TileObject)
                         {
-                            TextureItem ti = (TextureItem)selitem;
+                            TileObject ti = (TileObject)selitem;
                             ti.FlipHorizontally = !ti.FlipHorizontally;
                         }
                     } 
@@ -1001,12 +1001,12 @@ namespace GLEED2D
                 }
                 if (kstate.IsKeyDown(Keys.V) && oldkstate.GetPressedKeys().Length == 0 && SelectedItems.Count > 0)
                 {
-                    beginCommand("Flip Item(s) Vertically");
-                    foreach (Item selitem in SelectedItems)
+                    beginCommand("Flip MapObject(s) Vertically");
+                    foreach (MapObject selitem in SelectedItems)
                     {
-                        if (selitem is TextureItem)
+                        if (selitem is TileObject)
                         {
-                            TextureItem ti = (TextureItem)selitem;
+                            TileObject ti = (TileObject)selitem;
                             ti.FlipVertically = !ti.FlipVertically;
                         }
                     }
@@ -1018,7 +1018,7 @@ namespace GLEED2D
             if (state == EditorState.moving)
             {
                 int i = 0;
-                foreach (Item selitem in SelectedItems)
+                foreach (MapObject selitem in SelectedItems)
                 {
                     newPosition = initialpos[i] + mouseworldpos - grabbedpoint;
                     if (Constants.Instance.SnapToGrid || kstate.IsKeyDown(Keys.G)) newPosition = snapToGrid(newPosition);
@@ -1031,7 +1031,7 @@ namespace GLEED2D
                     (kstate.IsKeyUp(Keys.D1) && oldkstate.IsKeyDown(Keys.D1)))
                 {
 
-                    foreach (Item selitem in SelectedItems) selitem.onMouseButtonUp(mouseworldpos);
+                    foreach (MapObject selitem in SelectedItems) selitem.onMouseButtonUp(mouseworldpos);
 
                     state = EditorState.idle;
                     MainForm.Instance.pictureBox1.Cursor = Forms.Cursors.Default;
@@ -1044,7 +1044,7 @@ namespace GLEED2D
                 Vector2 newpos = mouseworldpos - SelectedItems[0].pPosition;
                 float deltatheta = (float)Math.Atan2(grabbedpoint.Y, grabbedpoint.X) - (float)Math.Atan2(newpos.Y, newpos.X);
                 int i = 0;
-                foreach (Item selitem in SelectedItems)
+                foreach (MapObject selitem in SelectedItems)
                 {
                     if (selitem.CanRotate())
                     {
@@ -1071,11 +1071,11 @@ namespace GLEED2D
                 Vector2 newdistance = mouseworldpos - SelectedItems[0].pPosition;
                 float factor = newdistance.Length() / grabbedpoint.Length();
                 int i = 0;
-                foreach (Item selitem in SelectedItems)
+                foreach (MapObject selitem in SelectedItems)
                 {
                     if (selitem.CanScale())
                     {
-                        if (selitem is TextureItem)
+                        if (selitem is TileObject)
                         {
                             MainForm.Instance.toolStripStatusLabel1.Text = "Hold down [X] or [Y] to limit scaling to the according dimension.";
                         }
@@ -1128,7 +1128,7 @@ namespace GLEED2D
                 {
                     SelectedItems.Clear();
                     selectionrectangle = Extensions.RectangleFromVectors(grabbedpoint, mouseworldpos);
-                    foreach (Item i in SelectedLayer.Items)
+                    foreach (MapObject i in SelectedLayer.MapObjects)
                     {
                         if (i.Visible && selectionrectangle.Contains((int)i.pPosition.X, (int)i.pPosition.Y)) SelectedItems.Add(i);
                     }
@@ -1294,7 +1294,7 @@ namespace GLEED2D
                 camera.Position *= SelectedItems[0].layer.ScrollSpeed;
                 sb.Begin();
                 int i = 0;
-                foreach (Item item in SelectedItems)
+                foreach (MapObject item in SelectedItems)
                 {
                     if (item.Visible && item.layer.Visible && kstate.IsKeyUp(Keys.Space))
                     {

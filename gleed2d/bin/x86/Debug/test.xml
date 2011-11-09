@@ -1,0 +1,27 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+
+entity decoder is 
+
+ port(
+		sel	: in	std_logic_vector(2 to 0),
+		y	: out	std_logic_vector(7 to 0)
+	);
+
+end decoder;
+
+
+architecture behavioral of decoder is
+
+begin
+  y(0) <= NOT sel(0) AND NOT sel(1) AND NOT sel(2) after 1 ns;
+  y(1) <= NOT sel(0) AND NOT sel(1) AND sel(2) after 1 ns;
+  y(2) <= NOT sel(0) AND sel(1) AND NOT sel(2) after 1 ns;
+  y(3) <= NOT sel(0) AND sel(1) AND sel(2) after 1 ns;
+  y(4) <= sel(0) AND NOT sel(1) AND NOT sel(2) after 1 ns;
+  y(5) <= sel(0) AND NOT sel(1) AND sel(2) after 1 ns;
+  y(6) <= sel(0) AND sel(1) AND NOT sel(2) after 1 ns;
+  y(7) <= sel(0) AND sel(1) AND sel(2) after 1 ns;
+  
+end behavioral;

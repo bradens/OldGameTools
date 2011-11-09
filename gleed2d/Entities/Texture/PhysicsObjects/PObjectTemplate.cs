@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace GLEED2D
 {
-    public class PObjectTemplate : TextureItem
+    public class PObjectTemplate : TileObject
     {
         [DisplayName("Mass"), Category(" Physical properties")]
         [XmlIgnore()]

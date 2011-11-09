@@ -13,16 +13,16 @@ namespace GLEED2D
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, System.Type destinationType)
         {
-            if (destinationType == typeof(Item)) return true;
+            if (destinationType == typeof(MapObject)) return true;
 
             return base.CanConvertTo(context, destinationType);
         }
 
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, System.Type destinationType)
         {
-            if (destinationType == typeof(string) && value is Item)
+            if (destinationType == typeof(string) && value is MapObject)
             {
-                Item result = (Item)value;
+                MapObject result = (MapObject)value;
                 return result.Name;
             }
             return base.ConvertTo(context, culture, value, destinationType);
@@ -31,7 +31,7 @@ namespace GLEED2D
     }
 
     [TypeConverter(typeof(ItemTypeConverter))]
-    public abstract partial class Item
+    public abstract partial class MapObject
     {
         [XmlIgnore()]
         public Layer layer;
@@ -63,7 +63,7 @@ namespace GLEED2D
         {
         }
 
-        public abstract Item clone();
+        public abstract MapObject clone();
 
         public virtual bool loadIntoEditor()
         {

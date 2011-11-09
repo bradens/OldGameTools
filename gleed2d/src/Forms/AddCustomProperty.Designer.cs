@@ -157,7 +157,7 @@
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(45, 17);
             this.radioButton5.TabIndex = 7;
-            this.radioButton5.Text = "Item";
+            this.radioButton5.Text = "MapObject";
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
             // AddCustomProperty

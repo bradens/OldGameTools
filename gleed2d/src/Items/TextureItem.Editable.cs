@@ -23,7 +23,7 @@ using System.IO;
 namespace GLEED2D
 {
 
-    public partial class TextureItem
+    public partial class TileObject
     {
         //for per-pixel-collision
         Color[] coldata;
@@ -133,7 +133,7 @@ namespace GLEED2D
             }
         }
 
-        public TextureItem(String fullpath, Vector2 position)
+        public TileObject(String fullpath, Vector2 position)
             : base()
         {
             this.texture_fullpath = fullpath;
@@ -161,7 +161,7 @@ namespace GLEED2D
             if (!File.Exists(texture_fullpath))
             {
                 DialogResult dr = Forms.MessageBox.Show("The file \"" + texture_fullpath + "\" doesn't exist!\n"
-                    + "The texture path is a combination of the Level's ContentRootFolder and the TextureItem's relative path.\n"
+                    + "The texture path is a combination of the Level's ContentRootFolder and the TileObject's relative path.\n"
                     + "Please adjust the XML file before trying to load this level again.\n"
                     + "For now, a dummy texture will be used. Continue loading the level?", "Error loading texture file",
                     MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Error);
@@ -183,9 +183,9 @@ namespace GLEED2D
             return true;
         }
 
-        public override Item clone()
+        public override MapObject clone()
         {
-            TextureItem result = (TextureItem)this.MemberwiseClone();
+            TileObject result = (TileObject)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
             result.polygon = (Vector2[])polygon.Clone();
             result.hovering = false;

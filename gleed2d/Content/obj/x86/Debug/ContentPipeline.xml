@@ -7,15 +7,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Jordan\Desktop\GameTools\gleed2d\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Jordan\Desktop\GameTools\gleed2d\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Jordan\Desktop\GameTools\gleed2d\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Jordan\Desktop\GameTools\gleed2d\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\braden\GameTools\gleed2d\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\braden\GameTools\gleed2d\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\braden\GameTools\gleed2d\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\braden\GameTools\gleed2d\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-10-13T22:17:49.93-07:00</Value>
+        <Value>2011-10-15T21:33:53.065-07:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

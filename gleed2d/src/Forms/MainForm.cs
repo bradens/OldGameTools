@@ -148,10 +148,10 @@ namespace GLEED2D
                 e.Node.Name = e.Label;
                 Editor.Instance.endCommand();
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is MapObject)
             {
-                Item i = (Item)e.Node.Tag;
-                Editor.Instance.beginCommand("Rename Item (\"" + i.Name + "\" -> \"" + e.Label + "\")");
+                MapObject i = (MapObject)e.Node.Tag;
+                Editor.Instance.beginCommand("Rename MapObject (\"" + i.Name + "\" -> \"" + e.Label + "\")");
                 i.Name = e.Label;
                 e.Node.Name = e.Label;
                 Editor.Instance.endCommand();
@@ -170,9 +170,9 @@ namespace GLEED2D
                 Layer l = (Layer)e.Node.Tag;
                 l.Visible = e.Node.Checked;
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is MapObject)
             {
-                Item i = (Item)e.Node.Tag;
+                MapObject i = (MapObject)e.Node.Tag;
                 i.Visible = e.Node.Checked;
             }
         }
@@ -187,9 +187,9 @@ namespace GLEED2D
                 Layer l = (Layer)e.Node.Tag;
                 Editor.Instance.selectlayer(l);
             }
-            if (e.Node.Tag is Item)
+            if (e.Node.Tag is MapObject)
             {
-                Item i = (Item)e.Node.Tag;
+                MapObject i = (MapObject)e.Node.Tag;
                 Editor.Instance.selectitem(i);
             }
         }
@@ -204,7 +204,7 @@ namespace GLEED2D
         {
             if (((TreeNode)e.Item).Tag is Layer) return;
             if (((TreeNode)e.Item).Tag is Level) return;
-            Editor.Instance.beginCommand("Drag Item");
+            Editor.Instance.beginCommand("Drag MapObject");
             DoDragDrop(e.Item, DragDropEffects.Move);
         }
         private void treeView1_DragOver(object sender, DragEventArgs e)
@@ -227,10 +227,10 @@ namespace GLEED2D
 
             if (destnode != sourcenode)
             {
-                Item i1 = (Item)sourcenode.Tag;
-                if (destnode.Tag is Item)
+                MapObject i1 = (MapObject)sourcenode.Tag;
+                if (destnode.Tag is MapObject)
                 {
-                    Item i2 = (Item)destnode.Tag;
+                    MapObject i2 = (MapObject)destnode.Tag;
                     Editor.Instance.moveItemToLayer(i1, i2.layer, i2);
                     int delta = 0;
                     if (destnode.Index > sourcenode.Index && i1.layer == i2.layer) delta = 1;
@@ -317,9 +317,9 @@ namespace GLEED2D
                 Layer l = (Layer)treeView1.SelectedNode.Tag;
                 Layer layercopy = l.clone();
                 layercopy.Name = getUniqueNameBasedOn(layercopy.Name);
-                for (int i = 0; i < layercopy.Items.Count; i++)
+                for (int i = 0; i < layercopy.MapObjects.Count; i++)
                 {
-                    layercopy.Items[i].Name = getUniqueNameBasedOn(layercopy.Items[i].Name);
+                    layercopy.MapObjects[i].Name = getUniqueNameBasedOn(layercopy.MapObjects[i].Name);
                 }
                 Editor.Instance.beginCommand("Duplicate Layer \"" + l.Name + "\"");
                 Editor.Instance.addLayer(layercopy);
@@ -333,9 +333,9 @@ namespace GLEED2D
             {
                 Editor.Instance.camera.Position = Microsoft.Xna.Framework.Vector2.Zero;
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is MapObject)
             {
-                Item i = (Item)treeView1.SelectedNode.Tag;
+                MapObject i = (MapObject)treeView1.SelectedNode.Tag;
                 Editor.Instance.camera.Position = i.pPosition;
             }
         }
@@ -356,7 +356,7 @@ namespace GLEED2D
                 Layer l = (Layer)treeView1.SelectedNode.Tag;
                 Editor.Instance.deleteLayer(l);
             }
-            else if (treeView1.SelectedNode.Tag is Item)
+            else if (treeView1.SelectedNode.Tag is MapObject)
             {
                 Editor.Instance.deleteSelectedItems();
             }
@@ -375,12 +375,12 @@ namespace GLEED2D
                     Editor.Instance.updatetreeview();
                 }
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is MapObject)
             {
-                Item i = (Item)treeView1.SelectedNode.Tag;
-                if (i.layer.Items.IndexOf(i) > 0)
+                MapObject i = (MapObject)treeView1.SelectedNode.Tag;
+                if (i.layer.MapObjects.IndexOf(i) > 0)
                 {
-                    Editor.Instance.beginCommand("Move Up Item \"" + i.Name + "\"");
+                    Editor.Instance.beginCommand("Move Up MapObject \"" + i.Name + "\"");
                     Editor.Instance.moveItemUp(i);
                     Editor.Instance.endCommand();
                     Editor.Instance.updatetreeview();
@@ -400,12 +400,12 @@ namespace GLEED2D
                     Editor.Instance.updatetreeview();
                 }
             }
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is MapObject)
             {
-                Item i = (Item)treeView1.SelectedNode.Tag;
-                if (i.layer.Items.IndexOf(i) < i.layer.Items.Count - 1)
+                MapObject i = (MapObject)treeView1.SelectedNode.Tag;
+                if (i.layer.MapObjects.IndexOf(i) < i.layer.MapObjects.Count - 1)
                 {
-                    Editor.Instance.beginCommand("Move Down Item \"" + i.Name + "\"");
+                    Editor.Instance.beginCommand("Move Down MapObject \"" + i.Name + "\"");
                     Editor.Instance.moveItemDown(i);
                     Editor.Instance.endCommand();
                     Editor.Instance.updatetreeview();
@@ -414,9 +414,9 @@ namespace GLEED2D
         }
         private void ActionAddCustomProperty(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Tag is Item)
+            if (treeView1.SelectedNode.Tag is MapObject)
             {
-                Item i = (Item)treeView1.SelectedNode.Tag;
+                MapObject i = (MapObject)treeView1.SelectedNode.Tag;
                 AddCustomProperty form = new AddCustomProperty(i.CustomProperties);
                 form.ShowDialog();
             }
@@ -807,14 +807,6 @@ namespace GLEED2D
             pictureBox1.Cursor = Cursors.Default;
         }
 
-
-       
-
-
-
-
-
-
         public string getUniqueNameBasedOn(string name)
         {
             int i=0;
@@ -893,11 +885,6 @@ namespace GLEED2D
             }
         }
 
-
-
-
-
-
         private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (listView2.FocusedItem.Text == "Rectangle")
@@ -912,63 +899,6 @@ namespace GLEED2D
             {
                 Editor.Instance.createPrimitiveBrush(PrimitiveType.Path);
             }
-                
-                ///////////////////////////////////////////////////////////////////////////////////////////////////
-                //add custom entities here
-                ////////////////////////////////////////////////////////////////////////////////////////////////
-
-            else if (listView2.FocusedItem.Text=="RevoluteJoint")
-            {
-              
-               Editor.Instance.createPrimitiveBrush(PrimitiveType.Circle, typeof(RevoluteJointTemplate));
-            }
-            else if (listView2.FocusedItem.Text == "AngleJoint")
-            {
-
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Circle, typeof(AngleJointTemplate));
-            }
-            else if (listView2.FocusedItem.Text == "SliderJoint")
-            {
-
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Path, typeof(SliderJointTemplate));
-            }
-            else if (listView2.FocusedItem.Text == "Spring")
-            {
-
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Path, typeof(SpringTemplate));
-            }
-
-            else if (listView2.FocusedItem.Text == "Chain")
-            {
-
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Path, typeof(ChainTemplate));
-
-            }
-            else if (listView2.FocusedItem.Text == "Track")
-            {
-
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Path, typeof(TrackTemplate));
-            }
-            else if (listView2.FocusedItem.Text == "PlayerStart")
-            {
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Rectangle, typeof(PlayerStart));
-            }
-
-            else if (listView2.FocusedItem.Text == "NPCStart")
-            {
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Rectangle, typeof(NPCStart));
-            }
-
-            else if (listView2.FocusedItem.Text == "PointLight")
-            {
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Circle, typeof(PointLightTemplate));
-            }
-
-            ///////////////////////////////////////////////////////////////////////////////////////////////////
-            //add custom entities here
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
         }
 
 
@@ -1059,13 +989,5 @@ namespace GLEED2D
         {
             Editor.Instance.animationMode = aoSwitch.Checked;
         }
-
-    
-
-
-
-
-
-
     }
 }

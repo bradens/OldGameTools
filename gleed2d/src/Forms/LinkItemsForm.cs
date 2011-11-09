@@ -41,23 +41,23 @@ namespace GLEED2D
         {
             if (textBox1.Text=="")
             {
-                MessageBox.Show("Please specify a name for the Custom Property that is to be added to the first Item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please specify a name for the Custom Property that is to be added to the first MapObject!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (checkBox1.Checked && textBox2.Text=="")
             {
-                MessageBox.Show("Please specify a name for the Custom Property that is to be added to the second Item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please specify a name for the Custom Property that is to be added to the second MapObject!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (Editor.Instance.SelectedItems[0].CustomProperties.ContainsKey(textBox1.Text))
             {
-                MessageBox.Show("The first Item (" + Editor.Instance.SelectedItems[0].Name + ") "+
+                MessageBox.Show("The first MapObject (" + Editor.Instance.SelectedItems[0].Name + ") "+
                     "already has a Custom Property named \"" + textBox1.Text + "\". Please use another name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             CustomProperty cp = new CustomProperty();
             cp.name = textBox1.Text;
-            cp.type = typeof(Item);
+            cp.type = typeof(MapObject);
             cp.value = Editor.Instance.SelectedItems[1];
             Editor.Instance.SelectedItems[0].CustomProperties.Add(cp.name, cp);
 
@@ -65,14 +65,14 @@ namespace GLEED2D
             {
                 if (Editor.Instance.SelectedItems[1].CustomProperties.ContainsKey(textBox2.Text))
                 {
-                    MessageBox.Show("The second Item (" + Editor.Instance.SelectedItems[1].Name + ") " +
+                    MessageBox.Show("The second MapObject (" + Editor.Instance.SelectedItems[1].Name + ") " +
                         "already has a Custom Property named \"" + textBox2.Text + "\". Please use another name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Editor.Instance.SelectedItems[0].CustomProperties.Remove(cp.name);
                     return;
                 }
                 cp = new CustomProperty();
                 cp.name = textBox2.Text;
-                cp.type = typeof(Item);
+                cp.type = typeof(MapObject);
                 cp.value = Editor.Instance.SelectedItems[0];
                 Editor.Instance.SelectedItems[1].CustomProperties.Add(cp.name, cp);
             }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="GLEED2D.Item">
+  <Class Name="GLEED2D.MapObject">
     <Position X="4.5" Y="0.5" Width="2.75" />
     <Compartments>
       <Compartment Name="Properties" Collapsed="true" />
@@ -8,7 +8,7 @@
     </Compartments>
     <TypeIdentifier>
       <HashCode>EBAAAIBQAIAAgACkARIAAAQAAgAAAgAIAAACNAQQAQg=</HashCode>
-      <FileName>src\Item.cs</FileName>
+      <FileName>src\MapObject.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

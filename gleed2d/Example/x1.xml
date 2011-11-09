@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<Level xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Level_01" Visible="true">
+    <Layers>
+        <Layer Name="asddf" Visible="true">
+            <MapObjects>
+                <MapObject xsi:type="TileObject" Name="Texture_1" Visible="true">
+                    <Id>1320875825</Id>
+                    <Position>
+                        <X>-77</X>
+                        <Y>8</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>08_mersky.jpg</texture_filename>
+                    <asset_name>08_mersky</asset_name>
+                    <Origin>
+                        <X>307</X>
+                        <Y>206</Y>
+                    </Origin>
+                    <isTemplate>false</isTemplate>
+                </MapObject>
+                <MapObject xsi:type="RectangleItem" Name="Rectangle_2" Visible="true">
+                    <Id>1320875833</Id>
+                    <Position>
+                        <X>-408</X>
+                        <Y>7</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>508</Width>
+                    <Height>5</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </MapObject>
+                <MapObject xsi:type="RectangleItem" Name="Rectangle_3" Visible="true">
+                    <Id>1320875834</Id>
+                    <Position>
+                        <X>102</X>
+                        <Y>-70</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>56</Width>
+                    <Height>81</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </MapObject>
+                <MapObject xsi:type="RectangleItem" Name="Rectangle_4" Visible="true">
+                    <Id>1320875836</Id>
+                    <Position>
+                        <X>246</X>
+                        <Y>52</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Width>52</Width>
+                    <Height>47</Height>
+                    <FillColor>
+                        <R>192</R>
+                        <G>0</G>
+                        <B>192</B>
+                        <A>145</A>
+                        <PackedValue>2445279424</PackedValue>
+                    </FillColor>
+                </MapObject>
+            </MapObjects>
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+            <CustomProperties />
+        </Layer>
+    </Layers>
+    <CustomProperties />
+    <EditorRelated>
+        <NextItemNumber>4</NextItemNumber>
+        <ContentRootFolder>C:\Users\braden\Downloads</ContentRootFolder>
+        <CameraPosition>
+            <X>0</X>
+            <Y>0</Y>
+        </CameraPosition>
+        <Version>1.3.0.1</Version>
+    </EditorRelated>
+</Level>

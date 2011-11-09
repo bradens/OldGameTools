@@ -156,7 +156,7 @@ namespace GLEED2D
         {
             if (sdict[key].type == typeof(Vector2)) return new Vector2UITypeEditor();
             if (sdict[key].type == typeof(Color)) return  new XNAColorUITypeEditor();
-            if (sdict[key].type == typeof(Item)) return new ItemUITypeEditor();
+            if (sdict[key].type == typeof(MapObject)) return new ItemUITypeEditor();
             
             return base.GetEditor(editorBaseType);
         }

@@ -73,11 +73,11 @@ namespace GLEED2D
         {
             foreach (Layer l in Layers)
             {
-                foreach (Item i in l.Items)
+                foreach (MapObject i in l.MapObjects)
                 {
-                    if (i is TextureItem)
+                    if (i is TileObject)
                     {
-                        TextureItem ti = (TextureItem)i;
+                        TileObject ti = (TileObject)i;
                         ti.texture_filename = RelativePath(ContentRootFolder, ti.texture_fullpath);
                         ti.asset_name = ti.texture_filename.Substring(0, ti.texture_filename.LastIndexOf('.'));
                     }

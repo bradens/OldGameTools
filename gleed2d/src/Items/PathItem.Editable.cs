@@ -44,7 +44,7 @@ namespace GLEED2D
             LineColor = Constants.Instance.ColorPrimitives;
         }
 
-        public override Item clone()
+        public override MapObject clone()
         {
             PathItem result = (PathItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);

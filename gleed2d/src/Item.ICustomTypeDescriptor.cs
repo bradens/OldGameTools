@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GLEED2D
 {
  
-    public partial class Item : ICustomTypeDescriptor
+    public partial class MapObject : ICustomTypeDescriptor
     {
 
         AttributeCollection ICustomTypeDescriptor.GetAttributes()

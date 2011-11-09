@@ -44,22 +44,22 @@ namespace GLEED2D
         public Layer clone()
         {
             Layer result = (Layer)this.MemberwiseClone();
-            result.Items = new List<Item>(Items);
-            for (int i = 0; i < result.Items.Count; i++)
+            result.MapObjects = new List<MapObject>(MapObjects);
+            for (int i = 0; i < result.MapObjects.Count; i++)
             {
-                result.Items[i] = result.Items[i].clone();
-                result.Items[i].layer = result;
+                result.MapObjects[i] = result.MapObjects[i].clone();
+                result.MapObjects[i].layer = result;
             }
             return result;
         }
 
 
 
-        public Item getItemAtPos(Vector2 mouseworldpos)
+        public MapObject getItemAtPos(Vector2 mouseworldpos)
         {
-            for (int i = Items.Count - 1; i >= 0; i--)
+            for (int i = MapObjects.Count - 1; i >= 0; i--)
             {
-                if (Items[i].contains(mouseworldpos) && Items[i].Visible) return Items[i];
+                if (MapObjects[i].contains(mouseworldpos) && MapObjects[i].Visible) return MapObjects[i];
             }
             return null;
         }
@@ -67,7 +67,7 @@ namespace GLEED2D
         public void drawInEditor(SpriteBatch sb)
         {
             if (!Visible) return;
-            foreach (Item item in Items) item.drawInEditor(sb);
+            foreach (MapObject item in MapObjects) item.drawInEditor(sb);
         }
 
 

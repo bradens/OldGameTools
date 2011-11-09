@@ -69,7 +69,7 @@ namespace GLEED2D
 
         }
 
-        public override Item clone()
+        public override MapObject clone()
         {
             RectangleItem result = (RectangleItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);

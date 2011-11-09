@@ -88,7 +88,7 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(188, 17);
             this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Link second Item back to first Item";
+            this.checkBox1.Text = "Link second MapObject back to first MapObject";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -101,7 +101,7 @@
             this.groupBox1.Size = new System.Drawing.Size(304, 76);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "First Item ($f)";
+            this.groupBox1.Text = "First MapObject ($f)";
             // 
             // groupBox2
             // 
@@ -113,7 +113,7 @@
             this.groupBox2.Size = new System.Drawing.Size(304, 80);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Second Item ($s)";
+            this.groupBox2.Text = "Second MapObject ($s)";
             // 
             // checkBox2
             // 
@@ -125,7 +125,7 @@
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(107, 17);
             this.checkBox2.TabIndex = 4;
-            this.checkBox2.Text = "same as first Item";
+            this.checkBox2.Text = "same as first MapObject";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -164,7 +164,7 @@
             this.Name = "LinkItemsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Link Items by a Custom Property";
+            this.Text = "Link MapObjects by a Custom Property";
             this.VisibleChanged += new System.EventHandler(this.LinkItemsForm_VisibleChanged);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

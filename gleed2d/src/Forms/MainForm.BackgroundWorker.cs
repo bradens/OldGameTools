@@ -140,7 +140,7 @@ namespace GLEED2D
             lvi.ImageKey = po.fileinfo.FullName;
             lvi.Tag = "file";
             lvi.ToolTipText = po.fileinfo.Name + " (" + po.bmp.Width + " x " + po.bmp.Height + ")";
-            listView1.Items.Add(lvi);
+            listView1.MapObjects.Add(lvi);
              * */
             
             toolStripStatusLabel1.Text = e.ProgressPercentage.ToString();

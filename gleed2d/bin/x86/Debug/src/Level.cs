@@ -24,7 +24,7 @@ namespace GLEED2D
         public bool Visible;
 
         /// <summary>
-        /// A Level contains several Layers. Each Layer contains several Items.
+        /// A Level contains several Layers. Each Layer contains several MapObjects.
         /// </summary>
         public List<Layer> Layers;
 
@@ -50,7 +50,7 @@ namespace GLEED2D
 
             foreach (Layer layer in level.Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (MapObject item in layer.MapObjects)
                 {
                     item.CustomProperties.RestoreItemAssociations(level);
                     item.load(cm);
@@ -73,11 +73,11 @@ namespace GLEED2D
         }
 
 
-        public Item getItemByName(string name)
+        public MapObject getItemByName(string name)
         {
             foreach (Layer layer in Layers)
             {
-                foreach (Item item in layer.Items)
+                foreach (MapObject item in layer.MapObjects)
                 {
                     if (item.Name == name) return item;
                 }
@@ -120,7 +120,7 @@ namespace GLEED2D
         /// <summary>
         /// The list of the items in this layer.
         /// </summary>
-        public List<Item> Items;
+        public List<MapObject> MapObjects;
 
         /// <summary>
         /// The Scroll Speed relative to the main camera. The X and Y components are 
@@ -137,7 +137,7 @@ namespace GLEED2D
 
         public Layer()
         {
-            Items = new List<Item>();
+            MapObjects = new List<MapObject>();
             ScrollSpeed = Vector2.One;
             CustomProperties = new SerializableDictionary();
         }
@@ -145,13 +145,13 @@ namespace GLEED2D
         public void draw(SpriteBatch sb)
         {
             if (!Visible) return;
-            foreach (Item item in Items) item.draw(sb);
+            foreach (MapObject item in MapObjects) item.draw(sb);
         }
 
     }
 
     //DEFAULT ITEMS
-    [XmlInclude(typeof(TextureItem))]
+    [XmlInclude(typeof(TileObject))]
     [XmlInclude(typeof(RectangleItem))]
     [XmlInclude(typeof(CircleItem))]
     [XmlInclude(typeof(PathItem))]
@@ -166,7 +166,7 @@ namespace GLEED2D
     [XmlInclude(typeof(PointLightTemplate))]
 
     
-    public partial class Item
+    public partial class MapObject
     {
         /// <summary>
         /// The name of this item.
@@ -193,14 +193,14 @@ namespace GLEED2D
         public SerializableDictionary CustomProperties;
 
 
-        public Item()
+        public MapObject()
         {
             CustomProperties = new SerializableDictionary();
         }
 
         /// <summary>
-        /// Called by Level.FromFile(filename) on each Item after the deserialization process.
-        /// Should be overriden and can be used to load anything needed by the Item (e.g. a texture).
+        /// Called by Level.FromFile(filename) on each MapObject after the deserialization process.
+        /// Should be overriden and can be used to load anything needed by the MapObject (e.g. a texture).
         /// </summary>
         public virtual void load(ContentManager cm)
         {
@@ -212,7 +212,7 @@ namespace GLEED2D
     }
 
 
-    public partial class TextureItem : Item
+    public partial class TileObject : MapObject
     {
         /// <summary>
         /// The item's rotation in radians.
@@ -253,7 +253,7 @@ namespace GLEED2D
         /// The XNA texture to be drawn. Can be loaded either from file (using "texture_filename") 
         /// or via the Content Pipeline (using "asset_name") - then you must ensure that the texture
         /// exists as an asset in your project.
-        /// Loading is done in the Item's load() method.
+        /// Loading is done in the MapObject's load() method.
         /// </summary>
         Texture2D texture;
 
@@ -265,13 +265,13 @@ namespace GLEED2D
 
         public bool isTemplate;
 
-        public TextureItem()
+        public TileObject()
         {
         }
 
         /// <summary>
-        /// Called by Level.FromFile(filename) on each Item after the deserialization process.
-        /// Loads all assets needed by the TextureItem, especially the Texture2D.
+        /// Called by Level.FromFile(filename) on each MapObject after the deserialization process.
+        /// Loads all assets needed by the TileObject, especially the Texture2D.
         /// You must provide your own implementation. However, you can rely on all public fields being
         /// filled by the level deserialization process.
         /// </summary>
@@ -279,7 +279,7 @@ namespace GLEED2D
         {
             //throw new NotImplementedException();
 
-            //TODO: provide your own implementation of how a TextureItem loads its assets
+            //TODO: provide your own implementation of how a TileObject loads its assets
             //for example:
             //this.texture = Texture2D.FromFile(<GraphicsDevice>, texture_filename);
             //or by using the Content Pipeline:
@@ -298,7 +298,7 @@ namespace GLEED2D
     }
 
 
-    public partial class RectangleItem : Item
+    public partial class RectangleItem : MapObject
     {
         public float Width;
         public float Height;
@@ -311,7 +311,7 @@ namespace GLEED2D
 
 
 
-    public partial class CircleItem : Item
+    public partial class CircleItem : MapObject
     {
         public float Radius;
         public Color FillColor;
@@ -322,7 +322,7 @@ namespace GLEED2D
     }
 
 
-    public partial class PathItem : Item
+    public partial class PathItem : MapObject
     {
         public Vector2[] LocalPoints;
         public Vector2[] WorldPoints;
@@ -417,9 +417,9 @@ namespace GLEED2D
                 if (type == "bool") cp.type = typeof(bool);
                 if (type == "Vector2") cp.type = typeof(Vector2);
                 if (type == "Color") cp.type = typeof(Color);
-                if (type == "Item") cp.type = typeof(Item);
+                if (type == "MapObject") cp.type = typeof(MapObject);
 
-                if (cp.type == typeof(Item))
+                if (cp.type == typeof(MapObject))
                 {
                     cp.value = reader.ReadInnerXml();
                     this.Add(cp.name, cp);
@@ -449,13 +449,13 @@ namespace GLEED2D
                 if (this[key].type == typeof(bool)) writer.WriteAttributeString("Type", "bool");
                 if (this[key].type == typeof(Vector2)) writer.WriteAttributeString("Type", "Vector2");
                 if (this[key].type == typeof(Color)) writer.WriteAttributeString("Type", "Color");
-                if (this[key].type == typeof(Item)) writer.WriteAttributeString("Type", "Item");
+                if (this[key].type == typeof(MapObject)) writer.WriteAttributeString("Type", "MapObject");
              
                 writer.WriteAttributeString("Description", this[key].description);
 
-                if (this[key].type == typeof(Item))
+                if (this[key].type == typeof(MapObject))
                 {
-                    Item item = (Item)this[key].value;
+                    MapObject item = (MapObject)this[key].value;
                     if (item != null) writer.WriteString(item.Name);
                     else writer.WriteString("$null$");
                 }
@@ -469,14 +469,14 @@ namespace GLEED2D
         }
 
         /// <summary>
-        /// Must be called after all Items have been deserialized. 
-        /// Restores the Item references in CustomProperties of type Item.
+        /// Must be called after all MapObjects have been deserialized. 
+        /// Restores the MapObject references in CustomProperties of type MapObject.
         /// </summary>
         public void RestoreItemAssociations(Level level)
         {
             foreach (CustomProperty cp in Values)
             {
-                if (cp.type == typeof(Item)) cp.value = level.getItemByName((string)cp.value);
+                if (cp.type == typeof(MapObject)) cp.value = level.getItemByName((string)cp.value);
             }
         }
 

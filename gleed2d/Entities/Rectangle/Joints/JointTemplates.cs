@@ -22,8 +22,8 @@ namespace GLEED2D
         public RevoluteAngleJointTemplate(Vector2 startpos, float radius)
             : base(startpos, radius)
         {
-            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(Item), "first body"));
-            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(Item), "second body"));
+            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(MapObject), "first body"));
+            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(MapObject), "second body"));
         }
         public RevoluteAngleJointTemplate()
             : base()
@@ -39,8 +39,8 @@ namespace GLEED2D
         {
             this.LineColor = Color.PaleGreen;
             this.LineColor.A = 128;
-            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(Item), "first body"));
-            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(Item), "second body"));
+            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(MapObject), "first body"));
+            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(MapObject), "second body"));
             this.CustomProperties.Add("SliderMode", new CustomProperty("SliderMode", false, typeof(bool), "SliderMode"));
             this.CustomProperties.Add("MinDistance", new CustomProperty("MinDistance", "0", typeof(string), "MinDistance"));
             this.CustomProperties.Add("MaxDistance", new CustomProperty("MaxDistance", "0", typeof(string), "MinDistance"));
@@ -113,8 +113,8 @@ namespace GLEED2D
         {
             this.LineColor = Color.Orange;
             this.LineColor.A = 128;
-            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(Item), "first body"));
-            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(Item), "second body"));
+            this.CustomProperties.Add("Body1", new CustomProperty("Body1", null, typeof(MapObject), "first body"));
+            this.CustomProperties.Add("Body2", new CustomProperty("Body2", null, typeof(MapObject), "second body"));
             this.CustomProperties.Add("AngleMode", new CustomProperty("AngleMode", false, typeof(bool), "AngleMode"));
             this.CustomProperties.Add("SpringConstant", new CustomProperty("SpringConstant", "0", typeof(string), "SpringConstant"));
             this.CustomProperties.Add("DampingConstant", new CustomProperty("DampingConstant", "0", typeof(string), "DampingConstant"));

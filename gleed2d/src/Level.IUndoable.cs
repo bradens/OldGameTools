@@ -23,7 +23,7 @@ namespace GLEED2D
         public IUndoable cloneforundo()
         {
             selecteditems = "";
-            foreach (Item i in Editor.Instance.SelectedItems) selecteditems += i.Name + ";";
+            foreach (MapObject i in Editor.Instance.SelectedItems) selecteditems += i.Name + ";";
             if (Editor.Instance.SelectedLayer != null) selectedlayers = Editor.Instance.SelectedLayer.Name;
 
 
@@ -40,9 +40,9 @@ namespace GLEED2D
         public void makelike(IUndoable other)
         {
             /*Layer l2 = (Layer)other;
-            Items = l2.Items;
+            MapObjects = l2.MapObjects;
             treenode.Nodes.Clear();
-            foreach (Item i in Items)
+            foreach (MapObject i in MapObjects)
             {
                 Editor.Instance.addItem(i);
             }*/

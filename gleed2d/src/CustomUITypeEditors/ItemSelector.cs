@@ -14,9 +14,9 @@ namespace CustomUITypeEditors
 {
     public partial class ItemSelector : UserControl
     {
-        public Item Value;
+        public MapObject Value;
 
-        public ItemSelector(Item item)
+        public ItemSelector(MapObject item)
         {
             InitializeComponent();
             Value = item;
@@ -44,7 +44,7 @@ namespace CustomUITypeEditors
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is Item) Value = (Item)e.Node.Tag;
+            if (e.Node.Tag is MapObject) Value = (MapObject)e.Node.Tag;
         }
 
     }
@@ -64,7 +64,7 @@ namespace CustomUITypeEditors
 
             if (wfes != null)
             {
-                ItemSelector uc1 = new ItemSelector((Item)value);
+                ItemSelector uc1 = new ItemSelector((MapObject)value);
                 wfes.DropDownControl(uc1);
                 value = uc1.Value;
             }

@@ -30,7 +30,7 @@ namespace GLEED2D
             this.FillColor = Constants.Instance.ColorPrimitives;
         }
 
-        public override Item clone()
+        public override MapObject clone()
         {
             CircleItem result = (CircleItem)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
