@@ -84,7 +84,6 @@ namespace GLEED2D
         [Category("General"), Description("The default LineWidth of each new PathItem added to the level.")]
         public int DefaultPathItemLineWidth { get; set; }
 
-
         [EditorAttribute(typeof(FolderUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         [Category("General"), Description("When a new level is created, its ContentRootFolder will be initially set to this.")]
         public string DefaultContentRootFolder { get; set; }

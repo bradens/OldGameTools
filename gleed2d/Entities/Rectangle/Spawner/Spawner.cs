@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace GLEED2D
 {
-    public class Spawner:RectangleItem
+    public class Spawner:CollisionRectangle
     {
         public Spawner(Rectangle rect)
             : base(rect)

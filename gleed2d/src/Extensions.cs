@@ -76,7 +76,7 @@ namespace GLEED2D
         }
 
         /// <summary>
-        /// Convert the Rectangle to an array of Vector2 containing its 4 corners.
+        /// Convert the CollisionRectangle to an array of Vector2 containing its 4 corners.
         /// </summary>
         /// <param name="r"></param>
         /// <param name="m"></param>

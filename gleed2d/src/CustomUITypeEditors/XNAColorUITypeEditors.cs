@@ -114,7 +114,7 @@ namespace CustomUITypeEditors
                     _inSizeChange = true;
                     TabControl tabControl = (TabControl)_control.Controls[0];
                     System.Drawing.Size size = tabControl.TabPages[0].Controls[0].Size;
-                    //Rectangle rectangle = tabControl.GetTabRect(0);
+                    //CollisionRectangle rectangle = tabControl.GetTabRect(0);
                     _control.Size = new System.Drawing.Size(_tbAlpha.Width + size.Width, size.Height + tabControl.GetTabRect(0).Height);
                 }
                 finally

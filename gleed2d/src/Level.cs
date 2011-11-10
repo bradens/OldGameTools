@@ -152,7 +152,7 @@ namespace GLEED2D
 
     //DEFAULT ITEMS
     [XmlInclude(typeof(TileObject))]
-    [XmlInclude(typeof(RectangleItem))]
+    [XmlInclude(typeof(CollisionRectangle))]
     [XmlInclude(typeof(CircleItem))]
     [XmlInclude(typeof(PathItem))]
     //CUSTOM ITEMS
@@ -298,13 +298,13 @@ namespace GLEED2D
     }
 
 
-    public partial class RectangleItem : MapObject
+    public partial class CollisionRectangle : MapObject
     {
         public float Width;
         public float Height;
         public Color FillColor;
 
-        public RectangleItem()
+        public CollisionRectangle()
         {
         }
     }

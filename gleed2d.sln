@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gleed2d", "gleed2d\gleed2d.csproj", "{48A02BD1-0377-4FEA-A8D8-5586A60789F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2788BCED-359C-4AC2-8767-2F6FAFA7EA39}"
+	ProjectSection(SolutionItems) = preProject
+		gleed2d.vsd = gleed2d.vsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace GLEED2D
 {
-    public partial class RectangleItem
+    public partial class CollisionRectangle
     {
         enum EdgeEnum
         {
@@ -59,7 +59,7 @@ namespace GLEED2D
         Rectangle Rectangle;
         int initialwidth, initialheight;
 
-        public RectangleItem(Rectangle rect) : base()
+        public CollisionRectangle(Rectangle rect) : base()
         {
             Position = rect.Location.ToVector2();
             Width = rect.Width;
@@ -71,7 +71,7 @@ namespace GLEED2D
 
         public override MapObject clone()
         {
-            RectangleItem result = (RectangleItem)this.MemberwiseClone();
+            CollisionRectangle result = (CollisionRectangle)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
             result.hovering = false; 
             return result;
@@ -97,7 +97,7 @@ namespace GLEED2D
 
         public override void onMouseOver(Vector2 mouseworldpos)
         {
-            //System.Diagnostics.Debug.WriteLine(System.DateTime.Now.ToString() + "RectangleItem.onMouseOver()");
+            //System.Diagnostics.Debug.WriteLine(System.DateTime.Now.ToString() + "CollisionRectangle.onMouseOver()");
 
             int edgewidth = 10;
             if (Math.Abs(mouseworldpos.X - Rectangle.Left) <= edgewidth)
@@ -130,7 +130,7 @@ namespace GLEED2D
 
         public override void onMouseOut()
         {
-            //System.Diagnostics.Debug.WriteLine(System.DateTime.Now.ToString() + "RectangleItem.onMouseOut()");
+            //System.Diagnostics.Debug.WriteLine(System.DateTime.Now.ToString() + "CollisionRectangle.onMouseOut()");
             base.onMouseOut();
         }
 

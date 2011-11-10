@@ -3,11 +3,11 @@
   <RunLevelStartApplication>false</RunLevelStartApplication>
   <RunLevelApplicationToStart />
   <RunLevelAppendLevelFilename>false</RunLevelAppendLevelFilename>
-  <SaveLevelStartApplication>false</SaveLevelStartApplication>
-  <SaveLevelApplicationToStart />
+  <SaveLevelStartApplication>true</SaveLevelStartApplication>
+  <SaveLevelApplicationToStart>C:\Users\braden\GameTools\gleed2d\example\x1.xml</SaveLevelApplicationToStart>
   <SaveLevelAppendLevelFilename>false</SaveLevelAppendLevelFilename>
   <ShowGrid>true</ShowGrid>
-  <SnapToGrid>false</SnapToGrid>
+  <SnapToGrid>true</SnapToGrid>
   <ShowWorldOrigin>false</ShowWorldOrigin>
   <ColorSelectionFirst>
     <R>255</R>

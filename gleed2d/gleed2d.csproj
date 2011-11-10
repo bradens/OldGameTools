@@ -229,6 +229,8 @@
     <Compile Include="src\TextureLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\xmlIcon.bmp" />
+    <EmbeddedResource Include="Resources\xmlicon.png" />
     <EmbeddedResource Include="Resources\cursors\scale.cur" />
     <EmbeddedResource Include="Resources\cursors\dragcopy.cur" />
     <Content Include="Game.ico" />

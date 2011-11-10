@@ -19,6 +19,11 @@ namespace GLEED2D
 {
     public partial class MainForm : Form
     {
+        public const String ITEM_TAB_PAGE = "itemsPage";
+        public const String TEXTURE_TAB_PAGE = "texturesPage";
+        public const String ITEM_LV_NAME_KEY = "itemsLV";
+        public const String TEXTURE_LV_NAME_KEY = "texturesLV";
+
         public static MainForm Instance;
         String levelfilename;
         //BackgroundWorker bgw = new BackgroundWorker();
@@ -87,12 +92,12 @@ namespace GLEED2D
             }
             zoomcombo.SelectedText = "100%";
 
-            comboBox1.Items.Add("48x48");
-            comboBox1.Items.Add("64x64");
-            comboBox1.Items.Add("96x96");
-            comboBox1.Items.Add("128x128");
-            comboBox1.Items.Add("256x256");
-            comboBox1.SelectedIndex = 1;
+            iconSizeBox.Items.Add("48x48");
+            iconSizeBox.Items.Add("64x64");
+            iconSizeBox.Items.Add("96x96");
+            iconSizeBox.Items.Add("128x128");
+            iconSizeBox.Items.Add("256x256");
+            iconSizeBox.SelectedIndex = 1;
 
             SetListViewSpacing(listView2, 128 + 8, 128 + 32);
 
@@ -302,7 +307,7 @@ namespace GLEED2D
         private void pictureBox1_DragDrop(object sender, DragEventArgs e)
         {
             Editor.Instance.paintTextureBrush(false);
-            listView1.Cursor = Cursors.Default;
+            texturesLV.Cursor = Cursors.Default;
             pictureBox1.Cursor = Cursors.Default;
         }
 
@@ -710,100 +715,122 @@ namespace GLEED2D
             Editor.Instance.redoMany(c);
         }
 
-
-
-
-
-
         private void comboSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBox1.SelectedIndex)
+            switch (iconSizeBox.SelectedIndex)
             {
                 case 0:
-                    listView1.LargeImageList = imageList48;
-                    SetListViewSpacing(listView1, 48 + 8, 48 + 32);
+                    texturesLV.LargeImageList = textureImageList48;
+                    SetListViewSpacing(texturesLV, 48 + 8, 48 + 32);
+                    itemsLV.LargeImageList = itemImageList48;
+                    SetListViewSpacing(itemsLV, 48 + 8, 48 + 32);
                     break;
                 case 1:
-                    listView1.LargeImageList = imageList64;
-                    SetListViewSpacing(listView1, 64 + 8, 64 + 32);
+                    texturesLV.LargeImageList = textureImageList64;
+                    SetListViewSpacing(texturesLV, 64 + 8, 64 + 32);
+                    itemsLV.LargeImageList = itemImageList64;
+                    SetListViewSpacing(itemsLV, 64 + 8, 64 + 32);
                     break;
                 case 2:
-                    listView1.LargeImageList = imageList96;
-                    SetListViewSpacing(listView1, 96 + 8, 96 + 32);
+                    texturesLV.LargeImageList = textureImageList96;
+                    SetListViewSpacing(texturesLV, 96 + 8, 96 + 32);
+                    itemsLV.LargeImageList = itemImageList96;
+                    SetListViewSpacing(itemsLV, 96 + 8, 96 + 32);
                     break;
                 case 3:
-                    listView1.LargeImageList = imageList128;
-                    SetListViewSpacing(listView1, 128 + 8, 128 + 32);
+                    texturesLV.LargeImageList = textureImageList128;
+                    SetListViewSpacing(texturesLV, 128 + 8, 128 + 32);
+                    itemsLV.LargeImageList = itemImageList128;
+                    SetListViewSpacing(itemsLV, 128 + 8, 128 + 32);
                     break;
                 case 4:
-                    listView1.LargeImageList = imageList256;
-                    SetListViewSpacing(listView1, 256 + 8, 256 + 32);
+                    texturesLV.LargeImageList = textureImageList256;
+                    SetListViewSpacing(texturesLV, 256 + 8, 256 + 32);
+                    itemsLV.LargeImageList = itemImageList256;
+                    SetListViewSpacing(itemsLV, 256 + 8, 256 + 32);
                     break;
             }
         }
 
         private void buttonFolderUp_Click(object sender, EventArgs e)
         {
-            DirectoryInfo di = Directory.GetParent(textBox1.Text);
+            DirectoryInfo di = null;
+            TabPage currPage = tabControl1.SelectedTab;
+            switch (tabControl1.SelectedTab.Name) {
+                case ITEM_TAB_PAGE:
+                    di = Directory.GetParent(itemDirBox.Text);
+                    break;
+                case TEXTURE_TAB_PAGE:
+                    di = Directory.GetParent(textureDirBox.Text);
+                    break;
+            }
+
             if (di == null) return;
-            loadfolder(di.FullName);
-            /*textBox1.Text = Directory.GetParent(textBox1.Text).FullName;
-            loadfolder(textBox1.Text);*/
+            loadfolder(di.FullName, currPage);
         }
         private void chooseFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog d = new FolderBrowserDialog();
-            d.SelectedPath = textBox1.Text;
-            if (d.ShowDialog() == DialogResult.OK) loadfolder(d.SelectedPath);
+            switch (this.getSelectedPage().Name)
+            {
+                case ITEM_TAB_PAGE:
+                    d.SelectedPath = itemDirBox.Text;
+                    break;
+                case TEXTURE_TAB_PAGE:
+                    d.SelectedPath = textureDirBox.Text;
+                    break;
+            }
+            if (d.ShowDialog() == DialogResult.OK) loadfolder(d.SelectedPath, this.getSelectedPage());
         }
-        private void listView1_Click(object sender, EventArgs e)
+        private void LV_Click(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = listView1.FocusedItem.ToolTipText;
+            toolStripStatusLabel1.Text = ((ListView)sender).FocusedItem.ToolTipText;
         }
-        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void LV_DoubleClick(object sender, MouseEventArgs e)
         {
-            string itemtype = listView1.FocusedItem.Tag.ToString();
+            ListView currView = (ListView)sender;
+            string itemtype = currView.FocusedItem.Tag.ToString();
             if (itemtype == "folder")
             {
-                loadfolder(listView1.FocusedItem.Name);
+                loadfolder(currView.FocusedItem.Name, this.getSelectedPage());
             }
             if (itemtype == "file")
             {
-                Editor.Instance.createTextureBrush(listView1.FocusedItem.Name);
+                Editor.Instance.createTextureBrush(currView.FocusedItem.Name);
             }
 
         }
-        private void listView1_ItemDrag(object sender, ItemDragEventArgs e)
+        private void LV_ItemDrag(object sender, ItemDragEventArgs e)
         {
             ListViewItem lvi = (ListViewItem)e.Item;
             if (lvi.Tag.ToString() == "folder") return;
             toolStripStatusLabel1.Text = lvi.ToolTipText;
-            Bitmap bmp = new Bitmap(listView1.LargeImageList.Images[lvi.ImageKey]);
+            Bitmap bmp = new Bitmap(((ListView)sender).LargeImageList.Images[lvi.ImageKey]);
             dragcursor = new Cursor(bmp.GetHicon());
-            listView1.DoDragDrop(e.Item, DragDropEffects.Move);
+            ((ListView)sender).DoDragDrop(e.Item, DragDropEffects.Move);
         }
-        private void listView1_DragOver(object sender, DragEventArgs e)
+        private void LV_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
-        private void listView1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        private void LV_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
             if (e.Effect == DragDropEffects.Move)
             {
                 e.UseDefaultCursors = false;
-                listView1.Cursor = dragcursor;
+                ((ListView)sender).Cursor = dragcursor;
                 pictureBox1.Cursor = Cursors.Default;
             }
             else
             {
                 e.UseDefaultCursors = true;
-                listView1.Cursor = Cursors.Default;
+                ((ListView)sender).Cursor = Cursors.Default;
                 pictureBox1.Cursor = Cursors.Default;
             }
         }
-        private void listView1_DragDrop(object sender, DragEventArgs e)
+        private void LV_DragDrop(object sender, DragEventArgs e)
         {
-            listView1.Cursor = Cursors.Default;
+            ((ListView)sender).Cursor = Cursors.Default;
             pictureBox1.Cursor = Cursors.Default;
         }
 
@@ -818,78 +845,143 @@ namespace GLEED2D
             return newname;
         }
 
-
-
-
-        public void loadfolder(string path)
+        public TabPage getSelectedPage()
         {
-            //loadfolder_background(path);
-            loadfolder_foreground(path);
+            return tabControl1.SelectedTab;
         }
 
-
-        public void loadfolder_foreground(string path)
+        public void loadfolder(string path, TabPage currPage)
         {
-            imageList48.Images.Clear();
-            imageList64.Images.Clear();
-            imageList96.Images.Clear();
-            imageList128.Images.Clear();
-            imageList256.Images.Clear();
+            //loadfolder_background(path);
+            loadfolder_foreground(path, currPage);
+        }
 
+        public void setDefaultItemFolder(string path)
+        {
+            itemDirBox.Text = new DirectoryInfo(path).FullName;
+        }
+
+        public void loadfolder_foreground(string path, TabPage currPage)
+        {
             Image img = Resources.folder;
-            imageList48.Images.Add(img);
-            imageList64.Images.Add(img);
-            imageList96.Images.Add(img);
-            imageList128.Images.Add(img);
-            imageList256.Images.Add(img);
-
-            listView1.Clear();
-
             DirectoryInfo di = new DirectoryInfo(path);
-            textBox1.Text = di.FullName;
             DirectoryInfo[] folders = di.GetDirectories();
-            foreach (DirectoryInfo folder in folders)
-            {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = folder.Name;
-                lvi.ToolTipText = folder.Name;
-                lvi.ImageIndex = 0;
-                lvi.Tag = "folder";
-                lvi.Name = folder.FullName;
-                listView1.Items.Add(lvi);
-            }
-
             string filters = "*.jpg;*.png;*.bmp;";
             List<FileInfo> fileList = new List<FileInfo>();
             string[] extensions = filters.Split(';');
             foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
             FileInfo[] files = fileList.ToArray();
-            
-            foreach (FileInfo file in files)
+            switch (currPage.Name)
             {
-                Bitmap bmp = new Bitmap(file.FullName);
-                imageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
-                imageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
-                imageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
-                imageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
-                imageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+                case ITEM_TAB_PAGE:
+                    img = Resources.folder;
+                    filters = "*.xml";
+                    fileList.AddRange(di.GetFiles(filters));
+                    files = fileList.ToArray();
+                    itemImageList48.Images.Clear();
+                    itemImageList64.Images.Clear();
+                    itemImageList96.Images.Clear();
+                    itemImageList128.Images.Clear();
+                    itemImageList256.Images.Clear();
 
-                ListViewItem lvi = new ListViewItem();
-                lvi.Name = file.FullName;
-                lvi.Text = file.Name;
-                lvi.ImageKey = file.FullName;
-                lvi.Tag = "file";
-                lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+                    itemImageList48.Images.Add(img);
+                    itemImageList64.Images.Add(img);
+                    itemImageList96.Images.Add(img);
+                    itemImageList128.Images.Add(img);
+                    itemImageList256.Images.Add(img);
 
-                listView1.Items.Add(lvi);
+                    itemsLV.Clear();
+
+                    itemDirBox.Text = di.FullName;
+                    foreach (DirectoryInfo folder in folders)
+                    {
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Text = folder.Name;
+                        lvi.ToolTipText = folder.Name;
+                        lvi.ImageIndex = 0;
+                        lvi.Tag = "folder";
+                        lvi.Name = folder.FullName;
+                        itemsLV.Items.Add(lvi);
+                    }
+
+                    foreach (FileInfo file in files)
+                    {
+                        Bitmap bmp = Resources.xmlicon;
+                        itemImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
+                        itemImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
+                        itemImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
+                        itemImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
+                        itemImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Name = file.FullName;
+                        lvi.Text = file.Name;
+                        lvi.ImageKey = file.FullName;
+                        lvi.Tag = "file";
+                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+
+                        itemsLV.Items.Add(lvi);
+                    }
+                    break;
+                case TEXTURE_TAB_PAGE:
+                    img = Resources.folder;
+                    textureImageList48.Images.Clear();
+                    textureImageList64.Images.Clear();
+                    textureImageList96.Images.Clear();
+                    textureImageList128.Images.Clear();
+                    textureImageList256.Images.Clear();
+
+                    textureImageList48.Images.Add(img);
+                    textureImageList64.Images.Add(img);
+                    textureImageList96.Images.Add(img);
+                    textureImageList128.Images.Add(img);
+                    textureImageList256.Images.Add(img);
+
+                    texturesLV.Clear();
+                    
+                    textureDirBox.Text = di.FullName;
+                    foreach (DirectoryInfo folder in folders)
+                    {
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Text = folder.Name;
+                        lvi.ToolTipText = folder.Name;
+                        lvi.ImageIndex = 0;
+                        lvi.Tag = "folder";
+                        lvi.Name = folder.FullName;
+                        texturesLV.Items.Add(lvi);
+                    }
+
+                    foreach (FileInfo file in files)
+                    {
+                        Bitmap bmp = new Bitmap(file.FullName);
+                        textureImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
+                        textureImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
+                        textureImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
+                        textureImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
+                        textureImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Name = file.FullName;
+                        lvi.Text = file.Name;
+                        lvi.ImageKey = file.FullName;
+                        lvi.Tag = "file";
+                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+
+                        texturesLV.Items.Add(lvi);
+                    }
+                    break;
             }
         }
 
         private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (listView2.FocusedItem.Text == "Rectangle")
+            //if (listView2.FocusedItem.Text == "CollisionRectangle")
+            //{
+            //    Editor.Instance.createPrimitiveBrush(PrimitiveType.CollisionRectangle);
+            //}
+            if (listView2.FocusedItem.Text == "CollsionRectangle")
             {
-                Editor.Instance.createPrimitiveBrush(PrimitiveType.Rectangle);
+                Editor.Instance.createPrimitiveBrush(PrimitiveType.CollisionRectangle);
             }
             else if (listView2.FocusedItem.Text == "Circle")
             {
@@ -968,11 +1060,6 @@ namespace GLEED2D
         private void ViewSnapToGrid_CheckedChanged(object sender, EventArgs e)
         {
             Constants.Instance.SnapToGrid = SnapToGridButton.Checked = ViewSnapToGrid.Checked;
-        }
-
-        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void soSwitch_CheckedChanged(object sender, EventArgs e)

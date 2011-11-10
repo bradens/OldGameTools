@@ -26,7 +26,7 @@ namespace GLEED2D
 
     enum PrimitiveType
     {
-        Rectangle, Circle, Path
+        CollisionRectangle, Circle, Path
     }
 
     class Editor
@@ -396,7 +396,7 @@ namespace GLEED2D
             MainForm.Instance.listView2.Cursor = Forms.Cursors.Cross;
             switch (primitiveType)
             {
-                case PrimitiveType.Rectangle:
+                case PrimitiveType.CollisionRectangle:
                     MainForm.Instance.toolStripStatusLabel1.Text = Resources.Rectangle_Entered;
                     break;
                 case PrimitiveType.Circle:
@@ -423,7 +423,7 @@ namespace GLEED2D
             {
                     
 
-                case PrimitiveType.Rectangle:
+                case PrimitiveType.CollisionRectangle:
                     MapObject ri;
                     if (customEntity)
                     {
@@ -432,7 +432,7 @@ namespace GLEED2D
                     }
                     else
                     {
-                        ri = new RectangleItem(Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
+                        ri = new CollisionRectangle(Extensions.RectangleFromVectors(clickedPoints[0], clickedPoints[1]));
                     }
                     
                     ri.Id = generateID(nextnum);
@@ -567,7 +567,9 @@ namespace GLEED2D
             }
 
             level = l;
-            MainForm.Instance.loadfolder(level.ContentRootFolder);
+            MainForm.Instance.loadfolder(level.ContentRootFolder, MainForm.Instance.getSelectedPage());
+            MainForm.Instance.setDefaultItemFolder(level.ContentRootFolder);
+
             if (level.Name == null) level.Name = "Level_01";
 
 
@@ -615,7 +617,7 @@ namespace GLEED2D
                     itemnode.ContextMenuStrip = MainForm.Instance.ItemContextMenu;
                     int imageindex = 0;
                     if (item is TileObject) imageindex = 1;
-                    if (item is RectangleItem) imageindex = 2;
+                    if (item is CollisionRectangle) imageindex = 2;
                     if (item is CircleItem) imageindex = 3;
                     if (item is PathItem) imageindex = 4;
                     itemnode.ImageIndex = itemnode.SelectedImageIndex = imageindex;
@@ -1157,7 +1159,7 @@ namespace GLEED2D
 
                 if (Constants.Instance.SnapToGrid || kstate.IsKeyDown(Keys.G)) mouseworldpos = snapToGrid(mouseworldpos);
 
-                if (kstate.IsKeyDown(Keys.LeftControl) && primitivestarted && currentprimitive == PrimitiveType.Rectangle)
+                if (kstate.IsKeyDown(Keys.LeftControl) && primitivestarted && currentprimitive == PrimitiveType.CollisionRectangle)
                 {
                     Vector2 distance = mouseworldpos - clickedPoints[0];
                     float squareside = Math.Max(distance.X, distance.Y);
@@ -1172,7 +1174,7 @@ namespace GLEED2D
                         primitivestarted = true;
                         switch (currentprimitive)
                         {
-                            case PrimitiveType.Rectangle:
+                            case PrimitiveType.CollisionRectangle:
                                 MainForm.Instance.toolStripStatusLabel1.Text = Resources.Rectangle_Started;
                                 break;
                             case PrimitiveType.Circle:
@@ -1221,7 +1223,7 @@ namespace GLEED2D
                         primitivestarted = false;
                         switch (currentprimitive)
                         {
-                            case PrimitiveType.Rectangle:
+                            case PrimitiveType.CollisionRectangle:
                                 MainForm.Instance.toolStripStatusLabel1.Text = Resources.Rectangle_Entered;
                                 break;
                             case PrimitiveType.Circle:
@@ -1267,7 +1269,7 @@ namespace GLEED2D
                 {
                     switch (currentprimitive)
                     {
-                        case PrimitiveType.Rectangle:
+                        case PrimitiveType.CollisionRectangle:
                             Rectangle rect = Extensions.RectangleFromVectors(clickedPoints[0], mouseworldpos);
                             Primitives.Instance.drawBoxFilled(sb, rect, Constants.Instance.ColorPrimitives);
                             break;

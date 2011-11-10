@@ -17,7 +17,7 @@ namespace GLEED2D
     public partial class MainForm : Form
     {
 
-        public void loadfolder_background(string path)
+        public void loadfolder_background(string path, TabPage currPage)
         {
             if (backgroundWorker1.IsBusy) backgroundWorker1.CancelAsync();
             while (backgroundWorker1.IsBusy)
@@ -25,61 +25,112 @@ namespace GLEED2D
                 Application.DoEvents();
                 Thread.Sleep(50);
             }
-            imageList48.Images.Clear();
-            imageList64.Images.Clear();
-            imageList96.Images.Clear();
-            imageList128.Images.Clear();
-            imageList256.Images.Clear();
-            listView1.Clear();
-
+            Image img = null;
             DirectoryInfo di = new DirectoryInfo(path);
-            textBox1.Text = di.FullName;
-
             DirectoryInfo[] folders = di.GetDirectories();
-            foreach (DirectoryInfo folder in folders)
-            {
-                Image img = Resources.folder;
-
-                imageList48.Images.Add(folder.Name, img);
-                imageList64.Images.Add(folder.Name, img);
-                imageList96.Images.Add(folder.Name, img);
-                imageList128.Images.Add(folder.Name, img);
-                imageList256.Images.Add(folder.Name, img);
-
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = folder.Name;
-                lvi.ToolTipText = folder.Name;
-                lvi.ImageIndex = imageList128.Images.IndexOfKey(folder.Name);
-                lvi.Tag = "folder";
-                lvi.Name = folder.FullName;
-                listView1.Items.Add(lvi);
-            }
-
-            string filters = "*.jpg;*.png;*.gif;*.bmp;*.tga";
+            string filters = "*.jpg;*.png;*.bmp;";
             List<FileInfo> fileList = new List<FileInfo>();
             string[] extensions = filters.Split(';');
             foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
             FileInfo[] files = fileList.ToArray();
-
-            Bitmap bmp = new Bitmap(1, 1);
-            bmp.SetPixel(0, 0, Color.Azure);
-            imageList48.Images.Add("default", bmp);
-            imageList64.Images.Add("default", bmp);
-            imageList96.Images.Add("default", bmp);
-            imageList128.Images.Add("default", bmp);
-            imageList256.Images.Add("default", bmp);
-            foreach (FileInfo file in files)
+            switch (currPage.Name)
             {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Name = file.FullName;
-                lvi.Text = file.Name;
-                lvi.ImageKey = "default";
-                lvi.Tag = "file";
-                listView1.Items.Add(lvi);
+                case ITEM_TAB_PAGE:
+                    img = Resources.folder;
+                    textureImageList48.Images.Clear();
+                    textureImageList64.Images.Clear();
+                    textureImageList96.Images.Clear();
+                    textureImageList128.Images.Clear();
+                    textureImageList256.Images.Clear();
+
+                    textureImageList48.Images.Add(img);
+                    textureImageList64.Images.Add(img);
+                    textureImageList96.Images.Add(img);
+                    textureImageList128.Images.Add(img);
+                    textureImageList256.Images.Add(img);
+                    itemsLV.Clear();
+                    itemDirBox.Text = di.FullName;
+                    foreach (DirectoryInfo folder in folders)
+                    {
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Text = folder.Name;
+                        lvi.ToolTipText = folder.Name;
+                        lvi.ImageIndex = 0;
+                        lvi.Tag = "folder";
+                        lvi.Name = folder.FullName;
+                        itemsLV.Items.Add(lvi);
+                    }
+                    
+                    foreach (FileInfo file in files)
+                    {
+                        Bitmap bmp = new Bitmap(file.FullName);
+                        
+                        textureImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
+                        textureImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
+                        textureImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
+                        textureImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
+                        textureImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Name = file.FullName;
+                        lvi.Text = file.Name;
+                        lvi.ImageKey = file.FullName;
+                        lvi.Tag = "file";
+                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+
+                        texturesLV.Items.Add(lvi);
+                    }
+                    sw.Start();
+                    backgroundWorker1.RunWorkerAsync(files);
+                    break;
+                case TEXTURE_TAB_PAGE:
+                    img = Resources.folder;
+                    textureImageList48.Images.Clear();
+                    textureImageList64.Images.Clear();
+                    textureImageList96.Images.Clear();
+                    textureImageList128.Images.Clear();
+                    textureImageList256.Images.Clear();
+
+                    textureImageList48.Images.Add(img);
+                    textureImageList64.Images.Add(img);
+                    textureImageList96.Images.Add(img);
+                    textureImageList128.Images.Add(img);
+                    textureImageList256.Images.Add(img);
+                    texturesLV.Clear();
+                    textureDirBox.Text = di.FullName;
+                    
+                    foreach (DirectoryInfo folder in folders)
+                    {
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Text = folder.Name;
+                        lvi.ToolTipText = folder.Name;
+                        lvi.ImageIndex = 0;
+                        lvi.Tag = "folder";
+                        lvi.Name = folder.FullName;
+                        texturesLV.Items.Add(lvi);
+                    }
+                    foreach (FileInfo file in files)
+                    {
+                        Bitmap bmp = new Bitmap(file.FullName);
+                        textureImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
+                        textureImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
+                        textureImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
+                        textureImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
+                        textureImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Name = file.FullName;
+                        lvi.Text = file.Name;
+                        lvi.ImageKey = file.FullName;
+                        lvi.Tag = "file";
+                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+
+                        texturesLV.Items.Add(lvi);
+                    }
+                    sw.Start();
+                    backgroundWorker1.RunWorkerAsync(files);
+                    break;
             }
-            
-            sw.Start();
-            backgroundWorker1.RunWorkerAsync(files);
 
         }
 
@@ -125,14 +176,19 @@ namespace GLEED2D
         {
             PassedObject po = (PassedObject)e.UserState;
             
-            imageList48.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 48, 48));
-            imageList64.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 64, 64));
-            imageList96.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 96, 96));
-            imageList128.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 128, 128));
-            imageList256.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 256, 256));
+            textureImageList48.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 48, 48));
+            textureImageList64.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 64, 64));
+            textureImageList96.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 96, 96));
+            textureImageList128.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 128, 128));
+            textureImageList256.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 256, 256));
+            itemImageList48.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 48, 48));
+            itemImageList64.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 64, 64));
+            itemImageList96.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 96, 96));
+            itemImageList128.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 128, 128));
+            itemImageList256.Images.Add(po.fileinfo.FullName, getThumbNail(po.bmp, 256, 256));
 
-            listView1.Items[po.fileinfo.FullName].ImageKey = po.fileinfo.FullName;
-            listView1.Items[po.fileinfo.FullName].ToolTipText = po.fileinfo.Name + " (" + po.bmp.Width.ToString() + " x " + po.bmp.Height.ToString() + ")";
+            texturesLV.Items[po.fileinfo.FullName].ImageKey = po.fileinfo.FullName;
+            texturesLV.Items[po.fileinfo.FullName].ToolTipText = po.fileinfo.Name + " (" + po.bmp.Width.ToString() + " x " + po.bmp.Height.ToString() + ")";
 
             /*ListViewItem lvi = new ListViewItem();
             lvi.Name = po.fileinfo.FullName;

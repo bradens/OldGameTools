@@ -382,7 +382,7 @@ namespace GLEED2D
                 rows = (int)(texture.Height / dimensions.Y);
                 reversed=(bool)this.CustomProperties["Reversed"].value;
 
-                //  Rectangle temprectangle = new Rectangle(0, 0, (int)dimensions.X, (int)dimensions.Y);
+                //  CollisionRectangle temprectangle = new CollisionRectangle(0, 0, (int)dimensions.X, (int)dimensions.Y);
                 if (column < 0)
                     column = 0;
                 if (row < 0)
