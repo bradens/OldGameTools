@@ -1,16 +1,16 @@
-11/9/2011 9:32:41 PM.160 - Log File created.
-11/9/2011 9:32:41 PM.175 - Application started.
-11/9/2011 9:32:41 PM.982 - Creating Game1 object.
-11/9/2011 9:32:42 PM.122 - Game1 creation started.
-11/9/2011 9:32:42 PM.139 - Creating Winform.
-11/9/2011 9:32:42 PM.331 - Winform created.
-11/9/2011 9:32:42 PM.331 - Game1 creation ended.
-11/9/2011 9:32:42 PM.412 - Creating Editor object.
-11/9/2011 9:32:42 PM.419 - Editor creation started.
-11/9/2011 9:32:42 PM.423 - Loading Resources.
-11/9/2011 9:32:42 PM.507 - Resources loaded.
-11/9/2011 9:32:42 PM.507 - Loading Settings.
-11/9/2011 9:32:42 PM.812 - Settings loaded.
-11/9/2011 9:32:42 PM.812 - Creating new level.
-11/9/2011 9:32:46 PM.079 - New level created.
-11/9/2011 9:32:46 PM.080 - Editor creation ended.
+11/10/2011 8:42:30 PM.588 - Log File created.
+11/10/2011 8:42:30 PM.603 - Application started.
+11/10/2011 8:42:31 PM.827 - Creating Game1 object.
+11/10/2011 8:42:32 PM.004 - Game1 creation started.
+11/10/2011 8:42:32 PM.018 - Creating Winform.
+11/10/2011 8:42:32 PM.189 - Winform created.
+11/10/2011 8:42:32 PM.189 - Game1 creation ended.
+11/10/2011 8:42:32 PM.281 - Creating Editor object.
+11/10/2011 8:42:32 PM.288 - Editor creation started.
+11/10/2011 8:42:32 PM.291 - Loading Resources.
+11/10/2011 8:42:32 PM.373 - Resources loaded.
+11/10/2011 8:42:32 PM.373 - Loading Settings.
+11/10/2011 8:42:32 PM.639 - Settings loaded.
+11/10/2011 8:42:32 PM.639 - Creating new level.
+11/10/2011 8:42:32 PM.743 - New level created.
+11/10/2011 8:42:32 PM.744 - Editor creation ended.

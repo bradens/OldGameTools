@@ -84,7 +84,6 @@ namespace GLEED2D
                 }
             }
 
-
             XmlTextWriter writer = new XmlTextWriter(filename, null);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 4;
@@ -93,7 +92,6 @@ namespace GLEED2D
             serializer.Serialize(writer, this);
 
             writer.Close();
-
         }
 
 

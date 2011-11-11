@@ -26,16 +26,17 @@ namespace GLEED2D
     public partial class TileObject
     {
         //for per-pixel-collision
-        Color[] coldata;
+        [XmlIgnore()]
+        public Color[] coldata;
+
         Matrix transform;
         Rectangle boundingrectangle;    //bounding rectangle in world space, for collision broadphase
 
-        Vector2[] polygon;              //selection box: drawn when selected
+        [XmlIgnore()]
+        public Vector2[] polygon;              //selection box: drawn when selected
 
         [XmlIgnore()]
         public string texture_fullpath;
-
-
 
         [XmlIgnore()]
         [DisplayName("Origin"), Category(" General")]

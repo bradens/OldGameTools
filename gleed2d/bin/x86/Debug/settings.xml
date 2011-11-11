@@ -6,8 +6,8 @@
   <SaveLevelStartApplication>true</SaveLevelStartApplication>
   <SaveLevelApplicationToStart>C:\Users\braden\GameTools\gleed2d\example\x1.xml</SaveLevelApplicationToStart>
   <SaveLevelAppendLevelFilename>false</SaveLevelAppendLevelFilename>
-  <ShowGrid>true</ShowGrid>
-  <SnapToGrid>true</SnapToGrid>
+  <ShowGrid>false</ShowGrid>
+  <SnapToGrid>false</SnapToGrid>
   <ShowWorldOrigin>false</ShowWorldOrigin>
   <ColorSelectionFirst>
     <R>255</R>
@@ -60,7 +60,7 @@
     <PackedValue>4294902015</PackedValue>
   </ColorTextureTransparent>
   <DefaultPathItemLineWidth>4</DefaultPathItemLineWidth>
-  <DefaultContentRootFolder>C:\Users\braden\Downloads</DefaultContentRootFolder>
+  <DefaultContentRootFolder>C:\Users\braden\GameTools\items</DefaultContentRootFolder>
   <CameraSpeed>500</CameraSpeed>
   <CameraFastSpeed>2000</CameraFastSpeed>
   <DefaultTextureOriginMethod>TextureCenter</DefaultTextureOriginMethod>

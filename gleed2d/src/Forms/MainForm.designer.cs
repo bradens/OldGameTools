@@ -186,6 +186,7 @@
             this.itemImageList128 = new System.Windows.Forms.ImageList(this.components);
             this.itemImageList96 = new System.Windows.Forms.ImageList(this.components);
             this.itemImageList256 = new System.Windows.Forms.ImageList(this.components);
+            this.newItemBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.CustomPropertyContextMenu.SuspendLayout();
@@ -1339,6 +1340,7 @@
             // 
             // itemsPage
             // 
+            this.itemsPage.Controls.Add(this.newItemBtn);
             this.itemsPage.Controls.Add(this.itemsLV);
             this.itemsPage.Controls.Add(this.itemChooseBtn);
             this.itemsPage.Controls.Add(this.itemUpLevelBtn);
@@ -1770,6 +1772,16 @@
             this.itemImageList256.ImageSize = new System.Drawing.Size(256, 256);
             this.itemImageList256.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // newItemBtn
+            // 
+            this.newItemBtn.Location = new System.Drawing.Point(466, 7);
+            this.newItemBtn.Name = "newItemBtn";
+            this.newItemBtn.Size = new System.Drawing.Size(75, 23);
+            this.newItemBtn.TabIndex = 9;
+            this.newItemBtn.Text = "New Item";
+            this.newItemBtn.UseVisualStyleBackColor = true;
+            this.newItemBtn.Click += new System.EventHandler(this.newItemBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1983,5 +1995,6 @@
         private System.Windows.Forms.ImageList itemImageList128;
         private System.Windows.Forms.ImageList itemImageList96;
         private System.Windows.Forms.ImageList itemImageList256;
+        private System.Windows.Forms.Button newItemBtn;
     }
 }

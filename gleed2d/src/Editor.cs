@@ -42,6 +42,7 @@ namespace GLEED2D
         Type customEntityType = null;
         bool primitivestarted;
         List<Vector2> clickedPoints = new List<Vector2>();
+        public List<Item> itemBuf;
         Layer selectedlayer;
         public Layer SelectedLayer
         {
@@ -299,6 +300,13 @@ namespace GLEED2D
             SelectedItems.Clear();
             updatetreeview();
         }
+
+        public void createItemBrush(Item item)
+        {
+            state = EditorState.brush;
+            currentbrush = new Brush(item);
+        }
+
         public void createTextureBrush(string fullpath)
         {
             state = EditorState.brush;
@@ -322,13 +330,14 @@ namespace GLEED2D
         public void paintTextureBrush(bool continueAfterPaint)
         {
            
+
             if (SelectedLayer == null)
             {
                 System.Windows.Forms.MessageBox.Show(Resources.No_Layer);
                 destroyTextureBrush();
                 return;
             }
-            MapObject i;
+            MapObject i = null;
             if (physicsItemMode)
             {
                 //physics
@@ -339,9 +348,19 @@ namespace GLEED2D
                 }
 
             }
-            else
+            switch (currentbrush.currentType)
             {
-                i = new TileObject(currentbrush.fullpath, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));
+                case Brush.Type.item:
+                    //SerializableDictionary sd = new SerializableDictionary();
+                    //sd.Add("health", new CustomProperty("health", "20", typeof(string), "+ 20 health"));
+                    currentbrush.itemObj.pPosition = new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y);
+                    //i = new Item(currentbrush.fullpath, currentbrush.fullpath, sd, "Description", new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y), "HealthPack");
+                    i = currentbrush.itemObj;
+                    //MainForm.Instance.exportItem((Item)i);
+                    break;
+                case Brush.Type.texture:
+                    i = new TileObject(currentbrush.fullpath, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));
+                    break;
             }
             if (animationMode)
             {

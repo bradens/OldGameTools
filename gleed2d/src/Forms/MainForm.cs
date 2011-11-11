@@ -14,6 +14,7 @@ using System.Threading;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace GLEED2D
 {
@@ -287,8 +288,14 @@ namespace GLEED2D
         {
             e.Effect = DragDropEffects.Move;
             ListViewItem lvi = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
-            Editor.Instance.createTextureBrush(lvi.Name);
 
+            if (lvi.Tag.ToString() == "xmlItem")
+            {
+                Item item = Editor.Instance.itemBuf.Find(i => i.Name == lvi.Name);
+                Editor.Instance.createItemBrush(item);
+            }
+            else
+                Editor.Instance.createTextureBrush(lvi.Name);
         }
         private void pictureBox1_DragOver(object sender, DragEventArgs e)
         {
@@ -308,6 +315,7 @@ namespace GLEED2D
         {
             Editor.Instance.paintTextureBrush(false);
             texturesLV.Cursor = Cursors.Default;
+            itemsLV.Cursor = Cursors.Default;
             pictureBox1.Cursor = Cursors.Default;
         }
 
@@ -790,15 +798,18 @@ namespace GLEED2D
         {
             ListView currView = (ListView)sender;
             string itemtype = currView.FocusedItem.Tag.ToString();
-            if (itemtype == "folder")
+            switch (itemtype)
             {
-                loadfolder(currView.FocusedItem.Name, this.getSelectedPage());
+                case "folder":
+                    loadfolder(currView.FocusedItem.Name, this.getSelectedPage());
+                    break;
+                case "file":
+                    Editor.Instance.createTextureBrush(currView.FocusedItem.Name);
+                    break;
+                case "xmlItem":
+                    Editor.Instance.createTextureBrush(currView.FocusedItem.Name);
+                    break;
             }
-            if (itemtype == "file")
-            {
-                Editor.Instance.createTextureBrush(currView.FocusedItem.Name);
-            }
-
         }
         private void LV_ItemDrag(object sender, ItemDragEventArgs e)
         {
@@ -866,16 +877,16 @@ namespace GLEED2D
             Image img = Resources.folder;
             DirectoryInfo di = new DirectoryInfo(path);
             DirectoryInfo[] folders = di.GetDirectories();
-            string filters = "*.jpg;*.png;*.bmp;";
+            string filters;
             List<FileInfo> fileList = new List<FileInfo>();
-            string[] extensions = filters.Split(';');
-            foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
+            string[] extensions;
             FileInfo[] files = fileList.ToArray();
             switch (currPage.Name)
             {
                 case ITEM_TAB_PAGE:
                     img = Resources.folder;
-                    filters = "*.xml";
+                    filters = "*.mpItem";
+                    fileList = new List<FileInfo>();
                     fileList.AddRange(di.GetFiles(filters));
                     files = fileList.ToArray();
                     itemImageList48.Images.Clear();
@@ -904,9 +915,12 @@ namespace GLEED2D
                         itemsLV.Items.Add(lvi);
                     }
 
+                    List<Item> currentItems = new List<Item>();
+                    Item currItem;
                     foreach (FileInfo file in files)
                     {
-                        Bitmap bmp = Resources.xmlicon;
+                        currItem = loadItem(file);
+                        Bitmap bmp = new Bitmap(currItem.iconPath);
                         itemImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
                         itemImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
                         itemImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
@@ -914,17 +928,24 @@ namespace GLEED2D
                         itemImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
 
                         ListViewItem lvi = new ListViewItem();
-                        lvi.Name = file.FullName;
+                        lvi.Name = currItem.Name;
                         lvi.Text = file.Name;
                         lvi.ImageKey = file.FullName;
-                        lvi.Tag = "file";
+                        lvi.Tag = "xmlItem";
                         lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
 
                         itemsLV.Items.Add(lvi);
+                        currentItems.Add(currItem);
                     }
+                    Editor.Instance.itemBuf = currentItems;
                     break;
                 case TEXTURE_TAB_PAGE:
+                    filters = "*.jpg;*.png;*.bmp;";
+                    extensions = filters.Split(';');
                     img = Resources.folder;
+                    fileList = new List<FileInfo>();
+                    foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
+                    files = fileList.ToArray();
                     textureImageList48.Images.Clear();
                     textureImageList64.Images.Clear();
                     textureImageList96.Images.Clear();
@@ -971,6 +992,39 @@ namespace GLEED2D
                     }
                     break;
             }
+        }
+
+        public Item loadItem(FileInfo file)
+        {
+            FileStream stream = File.Open(file.FullName, FileMode.Open);
+            XmlSerializer serializer = new XmlSerializer(typeof(Item));
+            Item currentItem = (Item)serializer.Deserialize(stream);
+            stream.Close();
+            return currentItem;
+        }
+
+        public List<Item> loadItems(FileInfo[] files)
+        {
+            List<Item> itemList = new List<Item>();
+            Item currentItem;
+            FileStream stream;
+            XmlSerializer serializer = new XmlSerializer(typeof(Item));
+
+            foreach (FileInfo f in files)
+            {
+                stream = File.Open(f.FullName, FileMode.Open);
+                currentItem = (Item)serializer.Deserialize(stream);
+                itemList.Add(currentItem);
+                stream.Close();
+           }
+           return itemList;
+        }
+
+        public void exportItem(Item i)
+        {
+            FileStream fs = File.Open("testItem.xml", FileMode.Create);
+            XmlSerializer xs = new XmlSerializer(typeof(Item));
+            xs.Serialize(fs, i);
         }
 
         private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1075,6 +1129,11 @@ namespace GLEED2D
         private void aoSwitch_CheckedChanged(object sender, EventArgs e)
         {
             Editor.Instance.animationMode = aoSwitch.Checked;
+        }
+
+        private void newItemBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

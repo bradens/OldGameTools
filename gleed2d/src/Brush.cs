@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using System.Drawing.Imaging;
+using GLEED2D.Properties;
 
 namespace GLEED2D
 {
@@ -19,11 +21,30 @@ namespace GLEED2D
     {
         public String fullpath;
         public Texture2D texture;
+        public enum Type
+        {
+            texture, item
+        }
+        public Type currentType;
+
+        public Item itemObj;
+
+        public Brush(Item itemObject)
+        {
+            this.itemObj = itemObject;
+            this.currentType = Type.item;
+            this.fullpath = this.itemObj.texturePath;
+            this.itemObj.texture_fullpath = this.fullpath;
+            this.texture = TextureLoader.Instance.FromFile(Game1.Instance.GraphicsDevice, this.fullpath);
+            this.itemObj.texture = this.texture;
+            this.itemObj.init();
+        }
 
         public Brush(String fullpath)
         {
             this.fullpath = fullpath;
-            this.texture = TextureLoader.Instance.FromFile(Game1.Instance.GraphicsDevice, fullpath);
+            this.currentType = Type.texture;
+            this.texture = TextureLoader.Instance.FromFile(Game1.Instance.GraphicsDevice, this.fullpath);
         }
     }
 

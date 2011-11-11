@@ -61,3 +61,4 @@ C:\Users\braden\GameTools\gleed2d\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\braden\GameTools\gleed2d\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\braden\GameTools\gleed2d\obj\x86\Debug\gleed2d.exe
 C:\Users\braden\GameTools\gleed2d\obj\x86\Debug\gleed2d.pdb
+C:\Users\braden\GameTools\gleed2d\obj\x86\Debug\GLEED2D.NewItemForm.resources

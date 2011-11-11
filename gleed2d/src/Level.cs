@@ -33,6 +33,7 @@ namespace GLEED2D
         /// </summary>
         public SerializableDictionary CustomProperties;
 
+        public Rectangle bounds;
 
         public Level()
         {
@@ -155,6 +156,7 @@ namespace GLEED2D
     [XmlInclude(typeof(CollisionRectangle))]
     [XmlInclude(typeof(CircleItem))]
     [XmlInclude(typeof(PathItem))]
+    [XmlInclude(typeof(Item))]
     //CUSTOM ITEMS
     [XmlInclude(typeof(PObjectTemplate))]
     [XmlInclude(typeof(RevoluteJointTemplate))]
@@ -211,7 +213,6 @@ namespace GLEED2D
         }
     }
 
-
     public partial class TileObject : MapObject
     {
         /// <summary>
@@ -255,7 +256,8 @@ namespace GLEED2D
         /// exists as an asset in your project.
         /// Loading is done in the MapObject's load() method.
         /// </summary>
-        Texture2D texture;
+        [XmlIgnore()]
+        public Texture2D texture;
 
         /// <summary>
         /// The item's origin relative to the upper left corner of the texture. Usually the middle of the texture.
@@ -263,6 +265,7 @@ namespace GLEED2D
         /// </summary>
         public Vector2 Origin;
 
+        [XmlIgnore()]
         public bool isTemplate;
 
         public TileObject()
@@ -277,6 +280,7 @@ namespace GLEED2D
         /// </summary>
         public override void load(ContentManager cm)
         {
+            base.load(cm);
             //throw new NotImplementedException();
 
             //TODO: provide your own implementation of how a TileObject loads its assets
@@ -294,6 +298,46 @@ namespace GLEED2D
             if (FlipHorizontally) effects |= SpriteEffects.FlipHorizontally;
             if (FlipVertically) effects |= SpriteEffects.FlipVertically;
             sb.Draw(texture, Position, null, TintColor, Rotation, Origin, Scale, effects, 0);
+        }
+    }
+
+    public partial class Item : TileObject
+    {
+        public String iconPath;
+        public String texturePath;
+        public SerializableDictionary attributes;
+        public String description;
+
+        new bool isTemplate;
+        new String texture_filename;
+
+        public Item() : base()
+        {
+        }
+        public Item(String textureFile, String iconFile, SerializableDictionary atts, String description, Vector2 position, String Name) 
+            : base(fullpath: textureFile, position: position)
+        {
+            this.Name = Name;
+            this.iconPath = iconFile;
+            this.texturePath = textureFile;
+            this.attributes = atts;
+            this.description = description;
+        }
+
+        public void init()
+        {
+            this.coldata = new Color[texture.Width * texture.Height];
+            texture.GetData(coldata);
+            polygon = new Vector2[4];
+        }
+
+        public override MapObject clone()
+        {
+            Item result = (Item)this.MemberwiseClone();
+            result.CustomProperties = new SerializableDictionary(CustomProperties);
+            result.polygon = (Vector2[])polygon.Clone();
+            result.hovering = false;
+            return result;
         }
     }
 
