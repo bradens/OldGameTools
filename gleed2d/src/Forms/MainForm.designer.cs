@@ -144,6 +144,7 @@
             this.textureDirBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.itemsPage = new System.Windows.Forms.TabPage();
+            this.newItemBtn = new System.Windows.Forms.Button();
             this.itemsLV = new System.Windows.Forms.ListView();
             this.itemChooseBtn = new System.Windows.Forms.Button();
             this.itemUpLevelBtn = new System.Windows.Forms.Button();
@@ -186,7 +187,6 @@
             this.itemImageList128 = new System.Windows.Forms.ImageList(this.components);
             this.itemImageList96 = new System.Windows.Forms.ImageList(this.components);
             this.itemImageList256 = new System.Windows.Forms.ImageList(this.components);
-            this.newItemBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.CustomPropertyContextMenu.SuspendLayout();
@@ -1352,6 +1352,16 @@
             this.itemsPage.Text = "Items";
             this.itemsPage.UseVisualStyleBackColor = true;
             // 
+            // newItemBtn
+            // 
+            this.newItemBtn.Location = new System.Drawing.Point(429, 7);
+            this.newItemBtn.Name = "newItemBtn";
+            this.newItemBtn.Size = new System.Drawing.Size(75, 23);
+            this.newItemBtn.TabIndex = 9;
+            this.newItemBtn.Text = "New Item";
+            this.newItemBtn.UseVisualStyleBackColor = true;
+            this.newItemBtn.Click += new System.EventHandler(this.newItemBtn_Click);
+            // 
             // itemsLV
             // 
             this.itemsLV.AllowDrop = true;
@@ -1771,16 +1781,6 @@
             this.itemImageList256.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.itemImageList256.ImageSize = new System.Drawing.Size(256, 256);
             this.itemImageList256.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // newItemBtn
-            // 
-            this.newItemBtn.Location = new System.Drawing.Point(466, 7);
-            this.newItemBtn.Name = "newItemBtn";
-            this.newItemBtn.Size = new System.Drawing.Size(75, 23);
-            this.newItemBtn.TabIndex = 9;
-            this.newItemBtn.Text = "New Item";
-            this.newItemBtn.UseVisualStyleBackColor = true;
-            this.newItemBtn.Click += new System.EventHandler(this.newItemBtn_Click);
             // 
             // MainForm
             // 

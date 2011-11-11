@@ -1133,7 +1133,8 @@ namespace GLEED2D
 
         private void newItemBtn_Click(object sender, EventArgs e)
         {
-
+            NewItemForm newItemDialog = new NewItemForm();
+            newItemDialog.ShowDialog(this);
         }
     }
 }

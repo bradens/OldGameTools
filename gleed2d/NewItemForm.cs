@@ -15,5 +15,15 @@ namespace GLEED2D
         {
             InitializeComponent();
         }
+
+        private void texturePreview_Click(object sender, EventArgs e)
+        {
+            DialogResult d = textureFileDialog.ShowDialog();
+        }
+
+        private void iconPreview_Click(object sender, EventArgs e)
+        {
+            DialogResult d = iconFileDialog.ShowDialog();
+        }
     }
 }
