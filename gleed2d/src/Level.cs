@@ -307,34 +307,58 @@ namespace GLEED2D
         public String texturePath;
         public SerializableDictionary attributes;
         public String description;
-
-        new bool isTemplate;
-        new String texture_filename;
+        public String itemName;
 
         public Item() : base()
         {
+            this.Scale = Vector2.One;
+            this.TintColor = Color.White;
+            FlipHorizontally = FlipVertically = false;
+            polygon = new Vector2[4];
         }
         public Item(String textureFile, String iconFile, SerializableDictionary atts, String description, Vector2 position, String Name) 
             : base(fullpath: textureFile, position: position)
         {
-            this.Name = Name;
-            this.iconPath = iconFile;
-            this.texturePath = textureFile;
-            this.attributes = atts;
-            this.description = description;
+            this.Position = position;
+            this.Rotation = 0;
+            this.Scale = Vector2.One;
+            this.TintColor = Color.White;
+            FlipHorizontally = FlipVertically = false;
+            loadIntoEditor();
+            this.Origin = getTextureOrigin(texture);
+
+            //compensate for origins that are not at the center of the texture
+            Vector2 center = new Vector2(texture.Width / 2, texture.Height / 2);
+            this.Position -= (center - Origin);
+
+            this.isTemplate = false;
+            this.coldata = new Color[texture.Width * texture.Height];
+            texture.GetData(coldata);
+            polygon = new Vector2[4];
+            OnTransformed();
         }
 
         public void init()
         {
             this.coldata = new Color[texture.Width * texture.Height];
             texture.GetData(coldata);
-            polygon = new Vector2[4];
         }
 
         public override MapObject clone()
         {
             Item result = (Item)this.MemberwiseClone();
             result.CustomProperties = new SerializableDictionary(CustomProperties);
+            result.attributes = new SerializableDictionary(attributes);
+            result.polygon = (Vector2[])polygon.Clone();
+            result.hovering = false;
+            return result;
+        }
+
+        public Item cloneItem()
+        {
+            Item result = (Item)this.MemberwiseClone();
+            result.CustomProperties = new SerializableDictionary(CustomProperties);
+            result.attributes = new SerializableDictionary(attributes);
             result.polygon = (Vector2[])polygon.Clone();
             result.hovering = false;
             return result;

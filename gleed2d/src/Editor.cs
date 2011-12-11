@@ -352,12 +352,10 @@ namespace GLEED2D
             switch (currentbrush.currentType)
             {
                 case Brush.Type.item:
-                    //SerializableDictionary sd = new SerializableDictionary();
-                    //sd.Add("health", new CustomProperty("health", "20", typeof(string), "+ 20 health"));
+                    currentbrush.itemObj.itemName = currentbrush.itemObj.Name;
                     currentbrush.itemObj.pPosition = new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y);
-                    //i = new Item(currentbrush.fullpath, currentbrush.fullpath, sd, "Description", new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y), "HealthPack");
+                    currentbrush.itemObj.Origin = currentbrush.itemObj.getTextureOrigin(currentbrush.itemObj.texture);
                     i = currentbrush.itemObj;
-                    //MainForm.Instance.exportItem((Item)i);
                     break;
                 case Brush.Type.texture:
                     i = new TileObject(currentbrush.fullpath, new Vector2((int)mouseworldpos.X, (int)mouseworldpos.Y));

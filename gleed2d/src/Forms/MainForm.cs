@@ -25,12 +25,9 @@ namespace GLEED2D
         public const String ITEM_LV_NAME_KEY = "itemsLV";
         public const String TEXTURE_LV_NAME_KEY = "texturesLV";
 
-        private Dictionary<string, Item> itemsLibrary = new Dictionary<string,Item>(); 
-
         public static MainForm Instance;
         String levelfilename;
         //BackgroundWorker bgw = new BackgroundWorker();
-
 
         bool dirtyflag;
         public bool DirtyFlag
@@ -106,7 +103,7 @@ namespace GLEED2D
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //exportItemLib();
+            exportItemLib();
             Constants.Instance.export("settings.xml");
             Game1.Instance.Exit();
         }
@@ -292,7 +289,7 @@ namespace GLEED2D
             if (lvi.Tag.ToString() == "xmlItem")
             {
                 Item item = Editor.Instance.itemLibrary[lvi.Name];
-                Editor.Instance.createItemBrush(item);
+                Editor.Instance.createItemBrush(item.cloneItem());
             }
             else
                 Editor.Instance.createTextureBrush(lvi.Name);

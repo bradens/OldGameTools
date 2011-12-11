@@ -39,7 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.descBox = new System.Windows.Forms.RichTextBox();
             this.attributesLB = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -62,7 +62,7 @@
             // texturePreview
             // 
             this.texturePreview.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.texturePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.texturePreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.texturePreview.Location = new System.Drawing.Point(12, 25);
             this.texturePreview.Name = "texturePreview";
             this.texturePreview.Size = new System.Drawing.Size(222, 169);
@@ -73,7 +73,7 @@
             // iconPreview
             // 
             this.iconPreview.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.iconPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.iconPreview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.iconPreview.Location = new System.Drawing.Point(12, 215);
             this.iconPreview.Name = "iconPreview";
             this.iconPreview.Size = new System.Drawing.Size(64, 64);
@@ -108,6 +108,7 @@
             this.okBtn.TabIndex = 4;
             this.okBtn.Text = "Submit";
             this.okBtn.UseVisualStyleBackColor = true;
+            this.okBtn.Click += new System.EventHandler(this.okBtn_Click);
             // 
             // cancelBtn
             // 
@@ -158,16 +159,16 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Description";
             // 
-            // richTextBox1
+            // descBox
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.Info;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox1.Location = new System.Drawing.Point(306, 56);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(329, 168);
-            this.richTextBox1.TabIndex = 9;
-            this.richTextBox1.Text = "";
+            this.descBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.descBox.BackColor = System.Drawing.SystemColors.Info;
+            this.descBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.descBox.Location = new System.Drawing.Point(306, 56);
+            this.descBox.Name = "descBox";
+            this.descBox.Size = new System.Drawing.Size(329, 168);
+            this.descBox.TabIndex = 9;
+            this.descBox.Text = "";
             // 
             // attributesLB
             // 
@@ -335,7 +336,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.attributesLB);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.descBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.nameBox);
             this.Controls.Add(this.label3);
@@ -367,7 +368,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox nameBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox descBox;
         private System.Windows.Forms.ListBox attributesLB;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
