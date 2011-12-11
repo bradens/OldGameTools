@@ -37,6 +37,7 @@ namespace GLEED2D
             ColorTextureTransparent = new Color(255, 0, 255, 255);
             DefaultPathItemLineWidth = 4;
             DefaultContentRootFolder = "C:\\";
+            ItemLibraryLocation = "C:\\items.mpItemLib";
             CameraSpeed = 500;
             CameraFastSpeed = 2000;
             DefaultTextureOriginMethod = TextureOriginMethodEnum.TextureCenter;
@@ -87,6 +88,9 @@ namespace GLEED2D
         [EditorAttribute(typeof(FolderUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         [Category("General"), Description("When a new level is created, its ContentRootFolder will be initially set to this.")]
         public string DefaultContentRootFolder { get; set; }
+
+        [Category("General"), Description("When a new level is created, its Default Item Library will be initially set to this.")]
+        public string ItemLibraryLocation { get; set; }
 
         [Category("General"), Description("The speed of the camera when moved with the W,A,S,D-Keys in WorldUnits/sec.")]
         public float CameraSpeed { get; set; }

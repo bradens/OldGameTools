@@ -59,6 +59,7 @@
             this.propertyGrid1.Size = new System.Drawing.Size(567, 451);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.ToolbarVisible = false;
+            this.propertyGrid1.Click += new System.EventHandler(this.propertyGrid1_Click);
             // 
             // buttonCancel
             // 

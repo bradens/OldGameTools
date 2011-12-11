@@ -138,6 +138,7 @@
     <Compile Include="NewItemForm.Designer.cs">
       <DependentUpon>NewItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\CustomUITypeEditors\FileUITypeEditor.cs" />
     <Compile Include="src\Layer.ICustomTypeDescriptor.cs" />
     <Compile Include="src\Forms\LinkItemsForm.cs">
       <SubType>Form</SubType>

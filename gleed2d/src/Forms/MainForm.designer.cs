@@ -1200,6 +1200,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(901, 193);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
             // texturesPage
             // 
@@ -1354,6 +1355,7 @@
             // 
             // newItemBtn
             // 
+            this.newItemBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.newItemBtn.Location = new System.Drawing.Point(429, 7);
             this.newItemBtn.Name = "newItemBtn";
             this.newItemBtn.Size = new System.Drawing.Size(75, 23);

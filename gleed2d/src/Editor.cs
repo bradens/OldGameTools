@@ -42,7 +42,7 @@ namespace GLEED2D
         Type customEntityType = null;
         bool primitivestarted;
         List<Vector2> clickedPoints = new List<Vector2>();
-        public List<Item> itemBuf;
+        public SerializableGenericDictionary<string, Item> itemLibrary = new SerializableGenericDictionary<string, Item>();
         Layer selectedlayer;
         public Layer SelectedLayer
         {
@@ -105,6 +105,7 @@ namespace GLEED2D
             MainForm.Instance.ViewGrid.Checked = Constants.Instance.ShowGrid;
             MainForm.Instance.ViewSnapToGrid.Checked = Constants.Instance.SnapToGrid;
             MainForm.Instance.ViewWorldOrigin.Checked = Constants.Instance.ShowWorldOrigin;
+            MainForm.Instance.loadItems();
             Logger.Instance.log("Settings loaded.");
 
             Logger.Instance.log("Creating new level.");

@@ -25,6 +25,8 @@ namespace GLEED2D
         public const String ITEM_LV_NAME_KEY = "itemsLV";
         public const String TEXTURE_LV_NAME_KEY = "texturesLV";
 
+        private Dictionary<string, Item> itemsLibrary = new Dictionary<string,Item>(); 
+
         public static MainForm Instance;
         String levelfilename;
         //BackgroundWorker bgw = new BackgroundWorker();
@@ -53,8 +55,6 @@ namespace GLEED2D
         {
             Instance = this;
             InitializeComponent();
-
-
         }
         public IntPtr getHandle()
         {
@@ -103,10 +103,10 @@ namespace GLEED2D
             SetListViewSpacing(listView2, 128 + 8, 128 + 32);
 
             pictureBox1.AllowDrop = true;
-
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //exportItemLib();
             Constants.Instance.export("settings.xml");
             Game1.Instance.Exit();
         }
@@ -291,7 +291,7 @@ namespace GLEED2D
 
             if (lvi.Tag.ToString() == "xmlItem")
             {
-                Item item = Editor.Instance.itemBuf.Find(i => i.Name == lvi.Name);
+                Item item = Editor.Instance.itemLibrary[lvi.Name];
                 Editor.Instance.createItemBrush(item);
             }
             else
@@ -881,158 +881,109 @@ namespace GLEED2D
             List<FileInfo> fileList = new List<FileInfo>();
             string[] extensions;
             FileInfo[] files = fileList.ToArray();
-            switch (currPage.Name)
-            {
-                case ITEM_TAB_PAGE:
-                    img = Resources.folder;
-                    filters = "*.mpItem";
-                    fileList = new List<FileInfo>();
-                    fileList.AddRange(di.GetFiles(filters));
-                    files = fileList.ToArray();
-                    itemImageList48.Images.Clear();
-                    itemImageList64.Images.Clear();
-                    itemImageList96.Images.Clear();
-                    itemImageList128.Images.Clear();
-                    itemImageList256.Images.Clear();
+            filters = "*.jpg;*.png;*.bmp;";
+            extensions = filters.Split(';');
+            img = Resources.folder;
+            fileList = new List<FileInfo>();
+            foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
+            files = fileList.ToArray();
+            textureImageList48.Images.Clear();
+            textureImageList64.Images.Clear();
+            textureImageList96.Images.Clear();
+            textureImageList128.Images.Clear();
+            textureImageList256.Images.Clear();
 
-                    itemImageList48.Images.Add(img);
-                    itemImageList64.Images.Add(img);
-                    itemImageList96.Images.Add(img);
-                    itemImageList128.Images.Add(img);
-                    itemImageList256.Images.Add(img);
+            textureImageList48.Images.Add(img);
+            textureImageList64.Images.Add(img);
+            textureImageList96.Images.Add(img);
+            textureImageList128.Images.Add(img);
+            textureImageList256.Images.Add(img);
 
-                    itemsLV.Clear();
-
-                    itemDirBox.Text = di.FullName;
-                    foreach (DirectoryInfo folder in folders)
-                    {
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Text = folder.Name;
-                        lvi.ToolTipText = folder.Name;
-                        lvi.ImageIndex = 0;
-                        lvi.Tag = "folder";
-                        lvi.Name = folder.FullName;
-                        itemsLV.Items.Add(lvi);
-                    }
-
-                    List<Item> currentItems = new List<Item>();
-                    Item currItem;
-                    foreach (FileInfo file in files)
-                    {
-                        currItem = loadItem(file);
-                        Bitmap bmp = new Bitmap(currItem.iconPath);
-                        itemImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
-                        itemImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
-                        itemImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
-                        itemImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
-                        itemImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
-
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Name = currItem.Name;
-                        lvi.Text = file.Name;
-                        lvi.ImageKey = file.FullName;
-                        lvi.Tag = "xmlItem";
-                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
-
-                        itemsLV.Items.Add(lvi);
-                        currentItems.Add(currItem);
-                    }
-                    Editor.Instance.itemBuf = currentItems;
-                    break;
-                case TEXTURE_TAB_PAGE:
-                    filters = "*.jpg;*.png;*.bmp;";
-                    extensions = filters.Split(';');
-                    img = Resources.folder;
-                    fileList = new List<FileInfo>();
-                    foreach (string filter in extensions) fileList.AddRange(di.GetFiles(filter));
-                    files = fileList.ToArray();
-                    textureImageList48.Images.Clear();
-                    textureImageList64.Images.Clear();
-                    textureImageList96.Images.Clear();
-                    textureImageList128.Images.Clear();
-                    textureImageList256.Images.Clear();
-
-                    textureImageList48.Images.Add(img);
-                    textureImageList64.Images.Add(img);
-                    textureImageList96.Images.Add(img);
-                    textureImageList128.Images.Add(img);
-                    textureImageList256.Images.Add(img);
-
-                    texturesLV.Clear();
+            texturesLV.Clear();
                     
-                    textureDirBox.Text = di.FullName;
-                    foreach (DirectoryInfo folder in folders)
-                    {
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Text = folder.Name;
-                        lvi.ToolTipText = folder.Name;
-                        lvi.ImageIndex = 0;
-                        lvi.Tag = "folder";
-                        lvi.Name = folder.FullName;
-                        texturesLV.Items.Add(lvi);
-                    }
+            textureDirBox.Text = di.FullName;
+            foreach (DirectoryInfo folder in folders)
+            {
+                ListViewItem lvi = new ListViewItem();
+                lvi.Text = folder.Name;
+                lvi.ToolTipText = folder.Name;
+                lvi.ImageIndex = 0;
+                lvi.Tag = "folder";
+                lvi.Name = folder.FullName;
+                texturesLV.Items.Add(lvi);
+            }
 
-                    foreach (FileInfo file in files)
-                    {
-                        Bitmap bmp = new Bitmap(file.FullName);
-                        textureImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
-                        textureImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
-                        textureImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
-                        textureImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
-                        textureImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
+            foreach (FileInfo file in files)
+            {
+                Bitmap bmp = new Bitmap(file.FullName);
+                textureImageList48.Images.Add(file.FullName, getThumbNail(bmp, 48, 48));
+                textureImageList64.Images.Add(file.FullName, getThumbNail(bmp, 64, 64));
+                textureImageList96.Images.Add(file.FullName, getThumbNail(bmp, 96, 96));
+                textureImageList128.Images.Add(file.FullName, getThumbNail(bmp, 128, 128));
+                textureImageList256.Images.Add(file.FullName, getThumbNail(bmp, 256, 256));
 
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.Name = file.FullName;
-                        lvi.Text = file.Name;
-                        lvi.ImageKey = file.FullName;
-                        lvi.Tag = "file";
-                        lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+                ListViewItem lvi = new ListViewItem();
+                lvi.Name = file.FullName;
+                lvi.Text = file.Name;
+                lvi.ImageKey = file.FullName;
+                lvi.Tag = "file";
+                lvi.ToolTipText = file.Name + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
 
-                        texturesLV.Items.Add(lvi);
-                    }
-                    break;
+                texturesLV.Items.Add(lvi);
             }
         }
 
-        public Item loadItem(FileInfo file)
+        /// <summary>
+        /// Clears and loads all the items from the Editor.itemLibrary into the listView
+        /// </summary>
+        public void reloadItemsLV()
         {
-            FileStream stream = File.Open(file.FullName, FileMode.Open);
-            XmlSerializer serializer = new XmlSerializer(typeof(Item));
-            Item currentItem = (Item)serializer.Deserialize(stream);
-            stream.Close();
-            return currentItem;
-        }
+            itemImageList48.Images.Clear();
+            itemImageList64.Images.Clear();
+            itemImageList96.Images.Clear();
+            itemImageList128.Images.Clear();
+            itemImageList256.Images.Clear();
 
-        public List<Item> loadItems(FileInfo[] files)
-        {
-            List<Item> itemList = new List<Item>();
-            Item currentItem;
-            FileStream stream;
-            XmlSerializer serializer = new XmlSerializer(typeof(Item));
+            itemsLV.Clear();
 
-            foreach (FileInfo f in files)
+            foreach (Item i in Editor.Instance.itemLibrary.Values)
             {
-                stream = File.Open(f.FullName, FileMode.Open);
-                currentItem = (Item)serializer.Deserialize(stream);
-                itemList.Add(currentItem);
-                stream.Close();
-           }
-           return itemList;
+                Bitmap bmp = new Bitmap(i.iconPath);
+                itemImageList48.Images.Add(i.Name, getThumbNail(bmp, 48, 48));
+                itemImageList64.Images.Add(i.Name, getThumbNail(bmp, 64, 64));
+                itemImageList96.Images.Add(i.Name, getThumbNail(bmp, 96, 96));
+                itemImageList128.Images.Add(i.Name, getThumbNail(bmp, 128, 128));
+                itemImageList256.Images.Add(i.Name, getThumbNail(bmp, 256, 256));
+
+                ListViewItem lvi = new ListViewItem();
+                lvi.Name = i.Name;
+                lvi.Text = i.Name;
+                lvi.ImageKey = i.Name;
+                lvi.Tag = "xmlItem";
+                lvi.ToolTipText = i.description + " (" + bmp.Width.ToString() + " x " + bmp.Height.ToString() + ")";
+
+                itemsLV.Items.Add(lvi);
+            }
         }
 
-        public void exportItem(Item i)
+        public void loadItems()
         {
-            FileStream fs = File.Open("testItem.xml", FileMode.Create);
-            XmlSerializer xs = new XmlSerializer(typeof(Item));
-            xs.Serialize(fs, i);
+            FileStream stream;
+            XmlSerializer serializer = new XmlSerializer(typeof(SerializableGenericDictionary<string, Item>));
+            stream = File.Open(Constants.Instance.ItemLibraryLocation, FileMode.Open);
+            Editor.Instance.itemLibrary = (SerializableGenericDictionary<string, Item>)serializer.Deserialize(stream);
+            stream.Close();
+        }
+
+        public void exportItemLib()
+        {
+            FileStream fs = File.Open(Constants.Instance.ItemLibraryLocation, FileMode.Create);
+            XmlSerializer xs = new XmlSerializer(typeof(SerializableGenericDictionary<string, Item>));
+            xs.Serialize(fs, Editor.Instance.itemLibrary);
         }
 
         private void listView2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            //if (listView2.FocusedItem.Text == "CollisionRectangle")
-            //{
-            //    Editor.Instance.createPrimitiveBrush(PrimitiveType.CollisionRectangle);
-            //}
             if (listView2.FocusedItem.Text == "CollsionRectangle")
             {
                 Editor.Instance.createPrimitiveBrush(PrimitiveType.CollisionRectangle);
@@ -1135,6 +1086,12 @@ namespace GLEED2D
         {
             NewItemForm newItemDialog = new NewItemForm();
             newItemDialog.ShowDialog(this);
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            if (e.TabPage.Name == ITEM_TAB_PAGE)
+                reloadItemsLV();
         }
     }
 }

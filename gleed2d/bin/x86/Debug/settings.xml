@@ -61,6 +61,7 @@
   </ColorTextureTransparent>
   <DefaultPathItemLineWidth>4</DefaultPathItemLineWidth>
   <DefaultContentRootFolder>C:\Users\braden\GameTools\items</DefaultContentRootFolder>
+  <ItemLibraryLocation>C:\items.mpItemLib</ItemLibraryLocation>
   <CameraSpeed>500</CameraSpeed>
   <CameraFastSpeed>2000</CameraFastSpeed>
   <DefaultTextureOriginMethod>TextureCenter</DefaultTextureOriginMethod>

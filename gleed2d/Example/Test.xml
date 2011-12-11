@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<Level xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Level_01" Visible="true">
+    <Layers>
+        <Layer Name="TestLayer" Visible="true">
+            <MapObjects>
+                <MapObject xsi:type="Item" Name="Texture_1" Visible="true">
+                    <Id>1323590980</Id>
+                    <Position>
+                        <X>-95</X>
+                        <Y>23</Y>
+                    </Position>
+                    <CustomProperties />
+                    <Rotation>0</Rotation>
+                    <Scale>
+                        <X>1</X>
+                        <Y>1</Y>
+                    </Scale>
+                    <TintColor>
+                        <R>255</R>
+                        <G>255</G>
+                        <B>255</B>
+                        <A>255</A>
+                        <PackedValue>4294967295</PackedValue>
+                    </TintColor>
+                    <FlipHorizontally>false</FlipHorizontally>
+                    <FlipVertically>false</FlipVertically>
+                    <texture_filename>..\..\Downloads\08_mersky.jpg</texture_filename>
+                    <asset_name>..\..\Downloads\08_mersky</asset_name>
+                    <Origin>
+                        <X>307</X>
+                        <Y>206</Y>
+                    </Origin>
+                    <iconPath>C:\Users\braden\Downloads\08_mersky.jpg</iconPath>
+                    <texturePath>C:\Users\braden\Downloads\08_mersky.jpg</texturePath>
+                    <attributes>
+                        <Property Name="health" Type="string" Description="+ 20 health">
+                            <string>20</string>
+                        </Property>
+                    </attributes>
+                    <description>Description</description>
+                </MapObject>
+            </MapObjects>
+            <ScrollSpeed>
+                <X>1</X>
+                <Y>1</Y>
+            </ScrollSpeed>
+            <CustomProperties />
+        </Layer>
+    </Layers>
+    <CustomProperties />
+    <bounds>
+        <X>0</X>
+        <Y>0</Y>
+        <Width>0</Width>
+        <Height>0</Height>
+        <Location>
+            <X>0</X>
+            <Y>0</Y>
+        </Location>
+    </bounds>
+    <EditorRelated>
+        <NextItemNumber>1</NextItemNumber>
+        <ContentRootFolder>C:\Users\braden\GameTools\items</ContentRootFolder>
+        <CameraPosition>
+            <X>0</X>
+            <Y>0</Y>
+        </CameraPosition>
+        <Version>1.3.0.1</Version>
+    </EditorRelated>
+</Level>

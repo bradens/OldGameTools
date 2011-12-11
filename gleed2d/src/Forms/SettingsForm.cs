@@ -92,6 +92,11 @@ namespace GLEED2D
             }
         }
 
+        private void propertyGrid1_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }
